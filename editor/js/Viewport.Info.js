@@ -119,7 +119,7 @@ function ViewportInfo( editor ) {
 	} );
 
 	editor.signals.viewportShadingChanged.add( function () {
-
+		
 		const isRealisticShading = ( editor.viewportShading === 'realistic' );
 
 		samplesText.setHidden( ! isRealisticShading );

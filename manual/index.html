@@ -34,6 +34,7 @@
 					<input placeholder="" type="text" id="filterInput" autocorrect="off" autocapitalize="off" spellcheck="false" />
 					<div id="clearSearchButton"></div>
 					<select id="language">
+						<option value="it">it</option>
 						<option value="en">en</option>
 						<option value="fr">fr</option>
 						<option value="ru">ru</option>
@@ -76,7 +77,7 @@
 
 			// Localization
 
-			let language = 'en';
+			let language = 'it';
 
 			const hashLanguage = /^(.*?)\//.exec( hash );
 
@@ -85,7 +86,7 @@
 				language = hashLanguage[ 1 ];
 
 			}
-
+			console.log("Language: ", language);
 			const languageSelect = document.querySelector( '#language' );
 			languageSelect.value = language;
 			languageSelect.addEventListener( 'change', function () {

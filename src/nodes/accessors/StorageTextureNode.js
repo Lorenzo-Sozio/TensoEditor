@@ -224,7 +224,7 @@ export const textureStore = ( value, uvNode, storeNode ) => {
 
 	const node = storageTexture( value, uvNode, storeNode );
 
-	if ( storeNode !== null ) node.toStack();
+	if ( storeNode !== null ) node.append();
 
 	return node;
 

@@ -557,7 +557,7 @@ ${ flowData.code }
 
 				}
 
-				if ( uniform.type === 'texture3D' && texture.isTextureArray === false ) {
+				if ( uniform.type === 'texture3D' ) {
 
 					snippet = `${typePrefix}sampler3D ${ uniform.name };`;
 
@@ -573,7 +573,7 @@ ${ flowData.code }
 
 					}
 
-				} else if ( texture.isDataArrayTexture === true || texture.isCompressedArrayTexture === true || texture.isTextureArray === true ) {
+				} else if ( texture.isDataArrayTexture === true || texture.isCompressedArrayTexture === true ) {
 
 					snippet = `${typePrefix}sampler2DArray ${ uniform.name };`;
 
@@ -1092,18 +1092,6 @@ ${ flowData.code }
 	}
 
 	/**
-	 * Enables multiview.
-	 */
-	enableMultiview() {
-
-		this.enableExtension( 'GL_OVR_multiview2', 'require', 'fragment' );
-		this.enableExtension( 'GL_OVR_multiview2', 'require', 'vertex' );
-
-		this.builtins[ 'vertex' ].push( 'layout(num_views = 2) in' );
-
-	}
-
-	/**
 	 * Registers a transform in context of Transform Feedback.
 	 *
 	 * @param {string} varyingName - The varying name.
@@ -1218,9 +1206,6 @@ void main() {
 		return `#version 300 es
 
 ${ this.getSignature() }
-
-// extensions
-${shaderData.extensions}
 
 // precision
 ${ defaultPrecisions }

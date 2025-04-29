@@ -1,4 +1,6 @@
+import { AddObjectCommand } from './commands/AddObjectCommand.js';
 import { UIPanel, UIRow, UIHorizontalRule } from './libs/ui.js';
+import {STLLoader} from 'three/examples/jsm/loaders/STLLoader.js';
 
 function MenubarFile( editor ) {
 
@@ -208,6 +210,48 @@ function MenubarFile( editor ) {
 	} );
 	options.add( option );
 
+
+	//INIZIO TEST
+	/*
+
+	option = new UIRow();
+	option.setClass( 'option' );
+	option.setTextContent( strings.getKey( 'menubar/file/import' ) );
+	option.onClick( function () {
+
+		const loaderSTL = new STLLoader();
+		loaderSTL.load('./assets/Tenda 02 vers 2024.stl', function (geometry) {
+			console.log("Loaded geometry", geometry);
+			let meshMaterial = new THREE.MeshPhongMaterial( { color: 0xff9c7c, specular: 0x494949, shininess: 200 } );
+
+            if (geometry.hasColors) {
+
+                meshMaterial = new THREE.MeshPhongMaterial({ opacity: geometry.alpha, vertexColors: true });
+
+            }
+
+            const mesh = new THREE.Mesh(geometry, meshMaterial);
+
+            mesh.position.set(0.5, 0.2, 0);
+            mesh.rotation.set(- Math.PI / 2, Math.PI / 2, 0);
+            mesh.scale.set(0.3, 0.3, 0.3);
+
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+
+			editor.execute( new AddObjectCommand( editor, mesh ) );
+
+
+        });
+
+
+	} );
+	options.add( option );
+
+
+	*/
+	//FINE TEST
+
 	// Export
 
 	const fileExportSubmenuTitle = new UIRow().setTextContent( strings.getKey( 'menubar/file/export' ) ).addClass( 'option' ).addClass( 'submenu-title' );
@@ -259,7 +303,8 @@ function MenubarFile( editor ) {
 			exportNormals: true,
 			exportColor: object.geometry.hasAttribute( 'color' )
 		};
-
+		scene.updateMatrixWorld( true );
+		
 		// TODO: Change to DRACOExporter's parse( geometry, onParse )?
 		const result = exporter.parse( object, options );
 		saveArrayBuffer( result, 'model.drc' );

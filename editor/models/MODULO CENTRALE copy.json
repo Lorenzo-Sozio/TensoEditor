@@ -1,0 +1,192 @@
+{
+	"metadata": {
+		"version": 4.6,
+		"type": "Object",
+		"generator": "Object3D.toJSON"
+	},
+	"geometries": [
+		{
+			"uuid": "29f911c7-54b3-4df4-bd03-d6cd958db6f2",
+			"type": "BufferGeometry",
+			"data": {
+				"attributes": {
+					"position": {
+						"itemSize": 3,
+						"type": "Float32Array",
+						"array": [-0.19388698041439056,5.8293867111206055,0.09834350645542145],
+						"normalized": false
+					}
+				},
+				"groups": [
+					{
+						"start": 0,
+						"count": 23004,
+						"materialIndex": 0
+					}],
+				"boundingSphere": {
+					"center": [-0.24199066741857678,1.853587127290666,-0.17240091785788536],
+					"radius": 1.8677394865310073
+				}
+			}
+		}],
+	"materials": [
+		{
+			"uuid": "0e5f7587-a6c3-406b-8bff-3e4a9d48a66f",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "c4259c6b-9da4-4c2d-b0af-6cdec416fc91",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "38b32ad3-faf3-4dbf-9cb9-f9c29ef40232",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "a2486da1-8b09-4055-8db4-48f3bb61ca7b",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "42e70d29-928e-461b-9814-cb1ef52331fe",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "f087ee18-d067-4c0e-991d-25fb34d38d6f",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "81b3bd55-ef41-46c2-88d3-d313065d9152",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "663dd8d1-d160-46bd-a906-8b39e331e876",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		},
+		{
+			"uuid": "afe51eea-9198-4dbb-9ebe-975e9b815d2b",
+			"type": "MeshMatcapMaterial",
+			"color": 16777215,
+			"blendColor": 0
+		}],
+	"object": {
+		"uuid": "bc6e3123-4bdc-47c7-9d66-87cb2acf8b99",
+		"type": "Group",
+		"name": "MODULO CENTRALE",
+		"layers": 1,
+		"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+		"up": [0,1,0],
+		"children": [
+			{
+				"uuid": "",
+				"type": "",
+				"name": "TESTA",
+				"layers": 0
+			},
+			{
+				"uuid": "8f81863b-d73e-4c90-9d15-9105766f132e",
+				"type": "Mesh",
+				"name": "TRAVETETTO",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"up": [0,1,0],
+				"geometry": "29f911c7-54b3-4df4-bd03-d6cd958db6f2",
+				"material": "0e5f7587-a6c3-406b-8bff-3e4a9d48a66f"
+			},
+			{
+				"uuid": "9590dda4-cfa7-4642-ab5c-9b90eb0033a7",
+				"type": "Mesh",
+				"name": "TELO COPERTURA",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"up": [0,1,0],
+				"geometry": "bd8b9df4-75fe-4be1-b38d-18ef1f9c3201",
+				"material": "c4259c6b-9da4-4c2d-b0af-6cdec416fc91"
+			},
+			{
+				"uuid": "469f1741-2161-44a6-8e8a-7da00921ce83",
+				"type": "Mesh",
+				"name": "ARCINT60",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"up": [0,1,0],
+				"geometry": "01d3aeb6-b485-4ecb-92a5-d89452208f76",
+				"material": "38b32ad3-faf3-4dbf-9cb9-f9c29ef40232"
+			},
+			{
+				"uuid": "73ec5478-af6d-44da-950e-f7c83ce30d8c",
+				"type": "Mesh",
+				"name": "ARCINT60",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"up": [0,1,0],
+				"geometry": "816fefe2-e807-4f95-9e22-2b38af776b7a",
+				"material": "a2486da1-8b09-4055-8db4-48f3bb61ca7b"
+			},
+			{
+				"uuid": "cedf5f25-b8c9-4d6a-84e2-2c0d72f5f2de",
+				"type": "Mesh",
+				"name": "ARCINT60",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"up": [0,1,0],
+				"geometry": "784985f8-16f9-4aff-adaa-0a5179862593",
+				"material": "42e70d29-928e-461b-9814-cb1ef52331fe"
+			},
+			{
+				"uuid": "addc5673-9d49-46d2-990d-e94dbf192040",
+				"type": "Mesh",
+				"name": "ARCINT60",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"up": [0,1,0],
+				"geometry": "ea15af26-91d7-4531-a1b1-d1e60c6a00d1",
+				"material": "f087ee18-d067-4c0e-991d-25fb34d38d6f"
+			},
+			{
+				"uuid": "79856135-d150-4b5a-92f1-c0c656de40b7",
+				"type": "Mesh",
+				"name": "ARCINT60",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1],
+				"up": [0,1,0],
+				"geometry": "54ef96a7-4b71-4542-9634-7d8e9747cf07",
+				"material": "81b3bd55-ef41-46c2-88d3-d313065d9152"
+			},
+			{
+				"uuid": "16acc6f0-a427-44d0-9a76-a56d047070bf",
+				"type": "Mesh",
+				"name": "TRAVE LATERALE",
+				"layers": 1,
+				"matrix": [1,0,0,0,0,1,0,0,0,0,1,0,-0.00820580723787695,0,-5.915659529761031,1],
+				"up": [0,1,0],
+				"geometry": "73524b3e-d096-43a1-9220-03b6d7f50efb",
+				"material": "663dd8d1-d160-46bd-a906-8b39e331e876"
+			},
+			{
+				"uuid": "16acc6f0-a427-44d0-9a76-a56d047070bf",
+				"type": "Mesh",
+				"name": "TRAVE LATERALE",
+				"layers": 1,
+				"matrix": [-1,0,-1.2246467991473532e-16,0,0,1,0,0,1.2246467991473532e-16,0,-1,0,-0.4936401981512974,0,5.916860286466279,1],
+				"up": [0,1,0],
+				"geometry": "73524b3e-d096-43a1-9220-03b6d7f50efb",
+				"material": "afe51eea-9198-4dbb-9ebe-975e9b815d2b"
+			}]
+	}
+}

@@ -13,7 +13,7 @@ import {
 	Vector3
 } from 'three';
 
-const _quaternion = new Quaternion();
+const _q = new Quaternion();
 const _targetPos = new Vector3();
 const _targetVec = new Vector3();
 const _effectorPos = new Vector3();
@@ -194,8 +194,8 @@ class CCDIKSolver {
 				_axis.crossVectors( _effectorVec, _targetVec );
 				_axis.normalize();
 
-				_quaternion.setFromAxisAngle( _axis, angle );
-				link.quaternion.multiply( _quaternion );
+				_q.setFromAxisAngle( _axis, angle );
+				link.quaternion.multiply( _q );
 
 				// TODO: re-consider the limitation specification
 				if ( limitation !== undefined ) {

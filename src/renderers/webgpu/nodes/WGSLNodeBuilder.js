@@ -1614,16 +1614,7 @@ ${ flowData.code }
 
 	isCustomStruct( nodeUniform ) {
 
-		const attribute = nodeUniform.value;
-		const bufferNode = nodeUniform.node;
-
-		const isAttributeStructType = ( attribute.isBufferAttribute || attribute.isInstancedBufferAttribute ) && bufferNode.structTypeNode !== null;
-
-		const isStructArray =
-			( bufferNode.value && bufferNode.value.array ) &&
-			( typeof bufferNode.value.itemSize === 'number' && bufferNode.value.array.length > bufferNode.value.itemSize );
-
-		return isAttributeStructType && ! isStructArray;
+		return nodeUniform.value.isStorageBufferAttribute && nodeUniform.node.structTypeNode !== null;
 
 	}
 
@@ -1681,7 +1672,7 @@ ${ flowData.code }
 
 					textureType = 'texture_cube<f32>';
 
-				} else if ( texture.isDataArrayTexture === true || texture.isCompressedArrayTexture === true || texture.isTextureArray === true ) {
+				} else if ( texture.isDataArrayTexture === true || texture.isCompressedArrayTexture === true ) {
 
 					textureType = 'texture_2d_array<f32>';
 

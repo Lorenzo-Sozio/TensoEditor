@@ -12,13 +12,10 @@ import {
 } from '../constants.js';
 import { generateUUID } from '../math/MathUtils.js';
 import { Vector2 } from '../math/Vector2.js';
-import { Vector3 } from '../math/Vector3.js';
 import { Matrix3 } from '../math/Matrix3.js';
 import { Source } from './Source.js';
 
 let _textureId = 0;
-
-const _tempVec3 = /*@__PURE__*/ new Vector3();
 
 /**
  * Base class for all textures.
@@ -341,15 +338,6 @@ class Texture extends EventDispatcher {
 		this.isRenderTargetTexture = false;
 
 		/**
-		 * Indicates if a texture should be handled like a texture array.
-		 *
-		 * @type {boolean}
-		 * @readonly
-		 * @default false
-		 */
-		this.isTextureArray = false;
-
-		/**
 		 * Indicates whether this texture should be processed by `PMREMGenerator` or not
 		 * (only relevant for render target textures).
 		 *
@@ -358,33 +346,6 @@ class Texture extends EventDispatcher {
 		 * @default 0
 		 */
 		this.pmremVersion = 0;
-
-	}
-
-	/**
-	 * The width of the texture in pixels.
-	 */
-	get width() {
-
-		return this.source.getSize( _tempVec3 ).x;
-
-	}
-
-	/**
-	 * The height of the texture in pixels.
-	 */
-	get height() {
-
-		return this.source.getSize( _tempVec3 ).y;
-
-	}
-
-	/**
-	 * The depth of the texture in pixels.
-	 */
-	get depth() {
-
-		return this.source.getSize( _tempVec3 ).z;
 
 	}
 
@@ -470,7 +431,6 @@ class Texture extends EventDispatcher {
 
 		this.renderTarget = source.renderTarget;
 		this.isRenderTargetTexture = source.isRenderTargetTexture;
-		this.isTextureArray = source.isTextureArray;
 
 		this.userData = JSON.parse( JSON.stringify( source.userData ) );
 

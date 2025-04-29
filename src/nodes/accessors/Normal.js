@@ -159,7 +159,7 @@ export const transformNormal = /*@__PURE__*/ Fn( ( [ normal, matrix = modelWorld
  */
 export const transformNormalToView = /*@__PURE__*/ Fn( ( [ normal ], builder ) => {
 
-	const modelNormalViewMatrix = builder.renderer.overrideNodes.modelNormalViewMatrix;
+	const modelNormalViewMatrix = builder.renderer.nodes.modelNormalViewMatrix;
 
 	if ( modelNormalViewMatrix !== null ) {
 

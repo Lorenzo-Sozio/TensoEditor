@@ -558,8 +558,7 @@ class OutlinePass extends Pass {
 			},
 
 			vertexShader:
-				`#include <batching_pars_vertex>
-				#include <morphtarget_pars_vertex>
+				`#include <morphtarget_pars_vertex>
 				#include <skinning_pars_vertex>
 
 				varying vec4 projTexCoord;
@@ -568,7 +567,6 @@ class OutlinePass extends Pass {
 
 				void main() {
 
-					#include <batching_vertex>
 					#include <skinbase_vertex>
 					#include <begin_vertex>
 					#include <morphtarget_vertex>

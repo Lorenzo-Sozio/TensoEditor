@@ -97,6 +97,10 @@ function SidebarSettingsShortcuts( editor ) {
 
 	document.addEventListener( 'keydown', function ( event ) {
 
+		if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+			return; // Exit the function if typing in an input field
+		}
+		
 		switch ( event.key.toLowerCase() ) {
 
 			case 'backspace':

@@ -131,7 +131,10 @@ function Script( editor ) {
 	// prevent backspace from deleting objects
 	const wrapper = codemirror.getWrapperElement();
 	wrapper.addEventListener( 'keydown', function ( event ) {
-
+		if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+			return; // Exit the function if typing in an input field
+		}
+		
 		event.stopPropagation();
 
 	} );

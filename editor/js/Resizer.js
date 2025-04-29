@@ -1,11 +1,12 @@
 import { UIElement } from './libs/ui.js';
 
-function Resizer( editor ) {
+function Resizer( editor, id = 'resizer' ) {
 
 	const signals = editor.signals;
 
 	const dom = document.createElement( 'div' );
-	dom.id = 'resizer';
+	dom.id = id;
+	dom.className = 'resizer';
 
 	function onPointerDown( event ) {
 

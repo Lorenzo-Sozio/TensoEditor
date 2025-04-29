@@ -86,7 +86,8 @@ import { threejsLessonUtils } from './threejs-lesson-utils.js';
 		const numRough = 7;
 		const meshes = [];
 		const MatCtor = physical ? THREE.MeshPhysicalMaterial : THREE.MeshStandardMaterial;
-		const color = physical ? 'hsl(160,50%,50%)' : 'hsl(140,50%,50%)';
+		//const color = physical ? 'hsl(160,50%,50%)' : 'hsl(140,50%,50%)';
+		const color = physical ? '#D8DEE2' : '#D8DEE2';
 		for ( let m = 0; m < numMetal; ++ m ) {
 
 			const row = [];

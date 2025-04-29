@@ -17,12 +17,6 @@ import { lightShadowMatrix } from '../accessors/Lights.js';
 import { resetRendererAndSceneState, restoreRendererAndSceneState } from '../../renderers/common/RendererUtils.js';
 import { getDataFromObject } from '../core/NodeUtils.js';
 import { getShadowMaterial, BasicShadowFilter, PCFShadowFilter, PCFSoftShadowFilter, VSMShadowFilter } from './ShadowFilterNode.js';
-import ChainMap from '../../renderers/common/ChainMap.js';
-
-//
-
-const _shadowRenderObjectLibrary = /*@__PURE__*/ new ChainMap();
-const _shadowRenderObjectKeys = [];
 
 /**
  * Creates a function to render shadow objects in a scene.
@@ -44,44 +38,25 @@ const _shadowRenderObjectKeys = [];
  */
 export const getShadowRenderObjectFunction = ( renderer, shadow, shadowType, useVelocity ) => {
 
-	_shadowRenderObjectKeys[ 0 ] = renderer;
-	_shadowRenderObjectKeys[ 1 ] = shadow;
+	return ( object, scene, _camera, geometry, material, group, ...params ) => {
 
-	let renderObjectFunction = _shadowRenderObjectLibrary.get( _shadowRenderObjectKeys );
+		if ( object.castShadow === true || ( object.receiveShadow && shadowType === VSMShadowMap ) ) {
 
-	if ( renderObjectFunction === undefined || ( renderObjectFunction.shadowType !== shadowType || renderObjectFunction.useVelocity !== useVelocity ) ) {
+			if ( useVelocity ) {
 
-		renderObjectFunction = ( object, scene, _camera, geometry, material, group, ...params ) => {
-
-			if ( object.castShadow === true || ( object.receiveShadow && shadowType === VSMShadowMap ) ) {
-
-				if ( useVelocity ) {
-
-					getDataFromObject( object ).useVelocity = true;
-
-				}
-
-				object.onBeforeShadow( renderer, object, _camera, shadow.camera, geometry, scene.overrideMaterial, group );
-
-				renderer.renderObject( object, scene, _camera, geometry, material, group, ...params );
-
-				object.onAfterShadow( renderer, object, _camera, shadow.camera, geometry, scene.overrideMaterial, group );
+				getDataFromObject( object ).useVelocity = true;
 
 			}
 
-		};
+			object.onBeforeShadow( renderer, object, _camera, shadow.camera, geometry, scene.overrideMaterial, group );
 
-		renderObjectFunction.shadowType = shadowType;
-		renderObjectFunction.useVelocity = useVelocity;
+			renderer.renderObject( object, scene, _camera, geometry, material, group, ...params );
 
-		_shadowRenderObjectLibrary.set( _shadowRenderObjectKeys, renderObjectFunction );
+			object.onAfterShadow( renderer, object, _camera, shadow.camera, geometry, scene.overrideMaterial, group );
 
-	}
+		}
 
-	_shadowRenderObjectKeys[ 0 ] = null;
-	_shadowRenderObjectKeys[ 1 ] = null;
-
-	return renderObjectFunction;
+	};
 
 };
 
@@ -390,7 +365,6 @@ class ShadowNode extends ShadowBaseNode {
 
 		const shadowMap = builder.createRenderTarget( shadow.mapSize.width, shadow.mapSize.height );
 		shadowMap.texture.name = 'ShadowMap';
-		shadowMap.texture.type = shadow.mapType;
 		shadowMap.depthTexture = depthTexture;
 
 		return { shadowMap, depthTexture };
@@ -595,13 +569,7 @@ class ShadowNode extends ShadowBaseNode {
 		const depthVersion = shadowMap.depthTexture.version;
 		this._depthVersionCached = depthVersion;
 
-		const _shadowCameraLayer = shadow.camera.layers.mask;
-
-		if ( ( shadow.camera.layers.mask & 0xFFFFFFFE ) === 0 ) {
-
-			shadow.camera.layers.mask = camera.layers.mask;
-
-		}
+		shadow.camera.layers.mask = camera.layers.mask;
 
 		const currentRenderObjectFunction = renderer.getRenderObjectFunction();
 
@@ -613,8 +581,6 @@ class ShadowNode extends ShadowBaseNode {
 		scene.overrideMaterial = getShadowMaterial( light );
 
 		renderer.setRenderObjectFunction( getShadowRenderObjectFunction( renderer, shadow, shadowType, useVelocity ) );
-
-		renderer.setClearColor( 0x000000, 0 );
 
 		renderer.setRenderTarget( shadowMap );
 
@@ -629,8 +595,6 @@ class ShadowNode extends ShadowBaseNode {
 			this.vsmPass( renderer );
 
 		}
-
-		shadow.camera.layers.mask = _shadowCameraLayer;
 
 		restoreRendererAndSceneState( renderer, scene, _rendererState );
 

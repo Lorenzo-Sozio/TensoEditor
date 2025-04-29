@@ -107,34 +107,23 @@ class LightsNode extends Node {
 	}
 
 	/**
-	 * Overwrites the default {@link Node#customCacheKey} implementation by including
-	 * light data into the cache key.
+	 * Overwrites the default {@link Node#customCacheKey} implementation by including the
+	 * light IDs into the cache key.
 	 *
 	 * @return {number} The custom cache key.
 	 */
 	customCacheKey() {
 
-		const hashData = [];
+		const lightIDs = [];
 		const lights = this._lights;
 
 		for ( let i = 0; i < lights.length; i ++ ) {
 
-			const light = lights[ i ];
-
-			hashData.push( light.id );
-
-			if ( light.isSpotLight === true ) {
-
-				const hashMap = ( light.map !== null ) ? light.map.id : - 1;
-				const hashAttenuation = ( light.attenuationNode ) ? light.attenuationNode.id : - 1;
-
-				hashData.push( hashMap, hashAttenuation );
-
-			}
+			lightIDs.push( lights[ i ].id );
 
 		}
 
-		return hashArray( hashData );
+		return hashArray( lightIDs );
 
 	}
 

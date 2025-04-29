@@ -54,9 +54,13 @@ function SidebarGeometryModifiers( editor, object ) {
 	const centerButton = new UIButton( strings.getKey( 'sidebar/geometry/center' ) );
 	centerButton.onClick( function () {
 
-		geometry.center();
+		//geometry.center();
 
-		signals.geometryChanged.dispatch( object );
+		var center = new THREE.Vector3();
+		object.geometry.computeBoundingBox();
+		object.geometry.boundingBox.getCenter(center);
+		object.geometry.center();
+		object.position.copy(center);
 
 	} );
 

@@ -234,8 +234,8 @@ class TiledLightsNode extends LightsNode {
 		const lightingModel = builder.context.reflectedLight;
 
 		// force declaration order, before of the loop
-		lightingModel.directDiffuse.toStack();
-		lightingModel.directSpecular.toStack();
+		lightingModel.directDiffuse.append();
+		lightingModel.directSpecular.append();
 
 		super.setupLights( builder, lightNodes );
 
@@ -262,7 +262,7 @@ class TiledLightsNode extends LightsNode {
 
 			} );
 
-		}, 'void' )();
+		} )().append();
 
 	}
 

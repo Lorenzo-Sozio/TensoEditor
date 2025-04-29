@@ -119,7 +119,6 @@ class UIElement {
 	}
 
 	setHidden( isHidden ) {
-
 		this.dom.hidden = isHidden;
 
 		return this;

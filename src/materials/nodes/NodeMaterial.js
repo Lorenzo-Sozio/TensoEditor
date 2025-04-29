@@ -2,6 +2,7 @@ import { Material } from '../Material.js';
 import { NormalBlending } from '../../constants.js';
 
 import { getNodeChildren, getCacheKey } from '../../nodes/core/NodeUtils.js';
+import { attribute } from '../../nodes/core/AttributeNode.js';
 import { output, diffuseColor, emissive, varyingProperty } from '../../nodes/core/PropertyNode.js';
 import { materialAlphaTest, materialColor, materialOpacity, materialEmissive, materialNormal, materialLightMap, materialAO } from '../../nodes/accessors/MaterialNode.js';
 import { modelViewProjection } from '../../nodes/accessors/ModelViewProjectionNode.js';
@@ -23,7 +24,6 @@ import { clipping, clippingAlpha, hardwareClipping } from '../../nodes/accessors
 import NodeMaterialObserver from './manager/NodeMaterialObserver.js';
 import getAlphaHashThreshold from '../../nodes/functions/material/getAlphaHashThreshold.js';
 import { modelViewMatrix } from '../../nodes/accessors/ModelNode.js';
-import { vertexColor } from '../../nodes/accessors/VertexColorNode.js';
 
 /**
  * Base class for all node materials.
@@ -278,16 +278,7 @@ class NodeMaterial extends Material {
 		 * @type {?Node<float>}
 		 * @default null
 		 */
-		this.receivedShadowPositionNode = null;
-
-		/**
-		 * Allows to overwrite the geometry position used for shadow map projection which
-		 * is by default {@link positionLocal}, the vertex position in local space.
-		 *
-		 * @type {?Node<float>}
-		 * @default null
-		 */
-		this.castShadowPositionNode = null;
+		this.shadowPositionNode = null;
 
 		/**
 		 * This node can be used to influence how an object using this node material
@@ -370,26 +361,6 @@ class NodeMaterial extends Material {
 		 * @default null
 		 */
 		this.vertexNode = null;
-
-		// Deprecated properties
-
-		Object.defineProperty( this, 'shadowPositionNode', { // @deprecated, r176
-
-			get: () => {
-
-				return this.receivedShadowPositionNode;
-
-			},
-
-			set: ( value ) => {
-
-				console.warn( 'THREE.NodeMaterial: ".shadowPositionNode" was renamed to ".receivedShadowPositionNode".' );
-
-				this.receivedShadowPositionNode = value;
-
-			}
-
-		} );
 
 	}
 
@@ -661,7 +632,7 @@ class NodeMaterial extends Material {
 
 		if ( depthNode !== null ) {
 
-			depth.assign( depthNode ).toStack();
+			depth.assign( depthNode ).append();
 
 		}
 
@@ -722,13 +693,13 @@ class NodeMaterial extends Material {
 
 		if ( geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color ) {
 
-			morphReference( object ).toStack();
+			morphReference( object ).append();
 
 		}
 
 		if ( object.isSkinnedMesh === true ) {
 
-			skinning( object ).toStack();
+			skinning( object ).append();
 
 		}
 
@@ -744,13 +715,13 @@ class NodeMaterial extends Material {
 
 		if ( object.isBatchedMesh ) {
 
-			batch( object ).toStack();
+			batch( object ).append();
 
 		}
 
 		if ( ( object.isInstancedMesh && object.instanceMatrix && object.instanceMatrix.isInstancedBufferAttribute === true ) ) {
 
-			instancedMesh( object ).toStack();
+			instancedMesh( object ).append();
 
 		}
 
@@ -778,7 +749,7 @@ class NodeMaterial extends Material {
 
 		if ( this.vertexColors === true && geometry.hasAttribute( 'color' ) ) {
 
-			colorNode = colorNode.mul( vertexColor() );
+			colorNode = vec4( colorNode.xyz.mul( attribute( 'color', 'vec3' ) ), colorNode.a );
 
 		}
 
@@ -1194,8 +1165,7 @@ class NodeMaterial extends Material {
 		this.geometryNode = source.geometryNode;
 
 		this.depthNode = source.depthNode;
-		this.receivedShadowPositionNode = source.receivedShadowPositionNode;
-		this.castShadowPositionNode = source.castShadowPositionNode;
+		this.shadowPositionNode = source.shadowPositionNode;
 		this.receivedShadowNode = source.receivedShadowNode;
 		this.castShadowNode = source.castShadowNode;
 

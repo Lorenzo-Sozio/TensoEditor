@@ -29,8 +29,6 @@ import { Vector4 } from '../../math/Vector4.js';
 import { RenderTarget } from '../../core/RenderTarget.js';
 import { DoubleSide, BackSide, FrontSide, SRGBColorSpace, NoToneMapping, LinearFilter, LinearSRGBColorSpace, HalfFloatType, RGBAFormat, PCFShadowMap } from '../../constants.js';
 
-import { highpModelNormalViewMatrix, highpModelViewMatrix } from '../../nodes/accessors/ModelNode.js';
-
 const _scene = /*@__PURE__*/ new Scene();
 const _drawingBufferSize = /*@__PURE__*/ new Vector2();
 const _screen = /*@__PURE__*/ new Vector4();
@@ -59,7 +57,6 @@ class Renderer {
 	 * @property {?Function} [getFallback=null] - This callback function can be used to provide a fallback backend, if the primary backend can't be targeted.
 	 * @property {number} [colorBufferType=HalfFloatType] - Defines the type of color buffers. The default `HalfFloatType` is recommend for best
 	 * quality. To save memory and bandwidth, `UnsignedByteType` might be used. This will reduce rendering quality though.
-	 * @property {boolean} [multiview=false] - If set to `true`, the renderer will use multiview during WebXR rendering if supported.
 	 */
 
 	/**
@@ -90,8 +87,7 @@ class Renderer {
 			antialias = false,
 			samples = 0,
 			getFallback = null,
-			colorBufferType = HalfFloatType,
-			multiview = false
+			colorBufferType = HalfFloatType
 		} = parameters;
 
 		/**
@@ -232,15 +228,7 @@ class Renderer {
 		 */
 		this.info = new Info();
 
-		/**
-		 * Stores override nodes for specific transformations or calculations.
-		 * These nodes can be used to replace default behavior in the rendering pipeline.
-		 *
-		 * @type {Object}
-		 * @property {?Node} modelViewMatrix - An override node for the model-view matrix.
-		 * @property {?Node} modelNormalViewMatrix - An override node for the model normal view matrix.
-		 */
-		this.overrideNodes = {
+		this.nodes = {
 			modelViewMatrix: null,
 			modelNormalViewMatrix: null
 		};
@@ -691,7 +679,7 @@ class Renderer {
 		 *
 		 * @type {XRManager}
 		 */
-		this.xr = new XRManager( this, multiview );
+		this.xr = new XRManager( this );
 
 		/**
 		 * Debug configuration.
@@ -993,43 +981,6 @@ class Renderer {
 	}
 
 	/**
-	 * Enables or disables high precision for model-view and normal-view matrices.
-	 * When enabled, will use CPU 64-bit precision for higher precision instead of GPU 32-bit for higher performance.
-	 *
-	 * NOTE: 64-bit precision is not compatible with `InstancedMesh` and `SkinnedMesh`.
-	 *
-	 * @param {boolean} value - Whether to enable or disable high precision.
-	 * @type {boolean}
-	 */
-	set highPrecision( value ) {
-
-		if ( value === true ) {
-
-			this.overrideNodes.modelViewMatrix = highpModelViewMatrix;
-			this.overrideNodes.modelNormalViewMatrix = highpModelNormalViewMatrix;
-
-		} else if ( this.highPrecision ) {
-
-			this.overrideNodes.modelViewMatrix = null;
-			this.overrideNodes.modelNormalViewMatrix = null;
-
-		}
-
-	}
-
-	/**
-	 * Returns whether high precision is enabled or not.
-	 *
-	 * @return {boolean} Whether high precision is enabled or not.
-	 * @type {boolean}
-	 */
-	get highPrecision() {
-
-		return this.overrideNodes.modelViewMatrix === highpModelViewMatrix && this.overrideNodes.modelNormalViewMatrix === highpModelNormalViewMatrix;
-
-	}
-
-	/**
 	 * Sets the given MRT configuration.
 	 *
 	 * @param {MRTNode} mrt - The MRT node to set.
@@ -1239,17 +1190,14 @@ class Renderer {
 
 		}
 
-		const outputRenderTarget = this.getOutputRenderTarget();
-
 		frameBufferTarget.depthBuffer = depth;
 		frameBufferTarget.stencilBuffer = stencil;
-		frameBufferTarget.setSize( width, height, outputRenderTarget !== null ? outputRenderTarget.depth : 1 );
+		frameBufferTarget.setSize( width, height );
 		frameBufferTarget.viewport.copy( this._viewport );
 		frameBufferTarget.scissor.copy( this._scissor );
 		frameBufferTarget.viewport.multiplyScalar( this._pixelRatio );
 		frameBufferTarget.scissor.multiplyScalar( this._pixelRatio );
 		frameBufferTarget.scissorTest = this._scissorTest;
-		frameBufferTarget.multiview = outputRenderTarget !== null ? outputRenderTarget.multiview : false;
 
 		return frameBufferTarget;
 
@@ -2854,13 +2802,6 @@ class Renderer {
 
 					overrideColorNode = overrideMaterial.colorNode;
 					overrideMaterial.colorNode = material.castShadowNode;
-
-				}
-
-				if ( material.castShadowPositionNode && material.castShadowPositionNode.isNode ) {
-
-					overridePositionNode = overrideMaterial.positionNode;
-					overrideMaterial.positionNode = material.castShadowPositionNode;
 
 				}
 

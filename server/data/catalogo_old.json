@@ -1,0 +1,130 @@
+{
+  "catalogo": [
+    {
+      "id": "TEN20-H3-FULL",
+      "nome": "Tendostruttura Completa 20x35",
+      "tipo": "kit",
+      "unita_misura": "pz",
+      "descrizione": "Configurazione completa con 2 frontali",
+      "colore": "#F5F5F5",
+      "dimensioni": {
+        "larghezza": 2000,
+        "altezza": 350,
+        "profondita": 3500
+      },
+      "prefab3D": {
+        "asset": "models/TEN20-H3-FULL.glb",
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "relativeTransform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "children": [
+        { "id": "TEN20H3ALL1/2CON", "quantita": 2 }
+      ]
+    },
+    {
+      "id": "TEN20H3ALL1/2CON",
+      "nome": "Modulo Allungamento",
+      "tipo": "modulo",
+      "quantita": 2,
+      "unita_misura": "pz",
+      "dimensioni": {
+        "larghezza": 500,
+        "altezza": 300,
+        "profondita": 500
+      },
+      "prefab3D": {
+        "asset": "models/MOD-ALLUNGAMENTO.glb",
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "relativeTransform": {
+        "position": { "x": 0, "y": 0, "z": 250 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "children": [
+        { "id": "COL2201004H3", "quantita": 4 },
+        { "id": "TELTENTT20KIT", "quantita": 2 }
+      ]
+    },
+    {
+      "id": "COL2201004H3",
+      "nome": "Colonna Portante",
+      "tipo": "componente",
+      "quantita": 4,
+      "unita_misura": "pz",
+      "dimensioni": {
+        "larghezza": 22,
+        "altezza": 300,
+        "profondita": 10
+      },
+      "prefab3D": {
+        "asset": "models/COLONNA-H3.glb",
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "relativeTransform": {
+        "position": { "x": 0, "y": 150, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    },
+    {
+      "id": "TELTENTT20KIT",
+      "nome": "Kit Telo Tetto",
+      "tipo": "kit",
+      "quantita": 2,
+      "unita_misura": "pz",
+      "dimensioni": {
+        "larghezza": 500,
+        "altezza": 5,
+        "profondita": 20
+      },
+      "prefab3D": {
+        "asset": "models/TELTENTT20KIT.glb",
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "relativeTransform": {
+        "position": { "x": 0, "y": 300, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "children": [
+        { "id": "TELTENTTOS20", "quantita": 2 }
+      ]
+    },
+    {
+      "id": "TELTENTTOS20",
+      "nome": "Telo Oscurante",
+      "tipo": "componente",
+      "quantita": 2,
+      "unita_misura": "pz",
+      "dimensioni": {
+        "larghezza": 500,
+        "altezza": 0.5,
+        "profondita": 20
+      },
+      "prefab3D": {
+        "asset": "models/TELTENTTOS20.glb",
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      },
+      "relativeTransform": {
+        "position": { "x": 0, "y": 0, "z": 0 },
+        "rotation": { "x": 0, "y": 0, "z": 0 },
+        "scale": { "x": 1, "y": 1, "z": 1 }
+      }
+    }
+  ]
+}

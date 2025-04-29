@@ -61,6 +61,19 @@ function Loader( editor ) {
 
 	};
 
+	this.loadJSON = async function ( path ) {
+		try {
+			const response = await fetch(path);
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
+			const data = await response.json();
+			handleJSON(data);
+		} catch (error) {
+			console.error('Error loading JSON:', error);
+		}
+	};
+
 	this.loadFile = function ( file, manager ) {
 
 		const filename = file.name;
@@ -464,6 +477,10 @@ function Loader( editor ) {
 
 					const object = new OBJLoader().parse( contents );
 					object.name = filename;
+					
+					/*console.log( object );
+					editor.scene.add( object );
+					editor.scene.add( object.scene );*/
 
 					editor.execute( new AddObjectCommand( editor, object ) );
 

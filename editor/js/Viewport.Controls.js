@@ -1,18 +1,18 @@
 import { UIPanel, UISelect } from './libs/ui.js';
 
-function ViewportControls( editor ) {
+function ViewportControls(editor) {
 
 	const signals = editor.signals;
 
 	const container = new UIPanel();
-	container.setPosition( 'absolute' );
-	container.setRight( '10px' );
-	container.setTop( '10px' );
-	container.setColor( '#ffffff' );
+	container.setPosition('absolute');
+	container.setRight('10px');
+	container.setTop('10px');
+	container.setColor('#ffffff');
 
 	// camera
 
-	const cameraSelect = new UISelect();
+	/*const cameraSelect = new UISelect();
 	cameraSelect.setMarginLeft( '10px' );
 	cameraSelect.setMarginRight( '10px' );
 	cameraSelect.onChange( function () {
@@ -33,29 +33,29 @@ function ViewportControls( editor ) {
 		}
 
 	} );
-
+*/
 	// shading
 
 	const shadingSelect = new UISelect();
-	shadingSelect.setOptions( { 'realistic': 'realistic', 'solid': 'solid', 'normals': 'normals', 'wireframe': 'wireframe' } );
-	shadingSelect.setValue( 'solid' );
-	shadingSelect.onChange( function () {
+	shadingSelect.setOptions({ 'realistic': 'realistic', 'solid': 'solid', 'normals': 'normals', 'wireframe': 'wireframe' });
+	shadingSelect.setValue('solid');
+	shadingSelect.onChange(function () {
 
-		editor.setViewportShading( this.getValue() );
+		editor.setViewportShading(this.getValue());
 
-	} );
-	container.add( shadingSelect );
+	});
+	container.add(shadingSelect);
 
-	signals.editorCleared.add( function () {
+	signals.editorCleared.add(function () {
 
-		editor.setViewportCamera( editor.camera.uuid );
+		editor.setViewportCamera(editor.camera.uuid);
 
-		shadingSelect.setValue( 'solid' );
-		editor.setViewportShading( shadingSelect.getValue() );
+		shadingSelect.setValue('solid');
+		editor.setViewportShading(shadingSelect.getValue());
 
-	} );
+	});
 
-	signals.cameraResetted.add( update );
+	signals.cameraResetted.add(update);
 
 	update();
 
@@ -65,23 +65,23 @@ function ViewportControls( editor ) {
 
 		const options = {};
 
-		const cameras = editor.cameras;
+		/*const cameras = editor.cameras;
 
-		for ( const key in cameras ) {
+		for (const key in cameras) {
 
-			const camera = cameras[ key ];
-			options[ camera.uuid ] = camera.name;
+			const camera = cameras[key];
+			options[camera.uuid] = camera.name;
 
-		}
+		}*/
 
-		cameraSelect.setOptions( options );
+		//cameraSelect.setOptions(options);
 
-		const selectedCamera = ( editor.viewportCamera.uuid in options )
+		const selectedCamera = (editor.viewportCamera.uuid in options)
 			? editor.viewportCamera
 			: editor.camera;
 
-		cameraSelect.setValue( selectedCamera.uuid );
-		editor.setViewportCamera( selectedCamera.uuid );
+		//cameraSelect.setValue(selectedCamera.uuid);
+		editor.setViewportCamera(selectedCamera.uuid);
 
 	}
 

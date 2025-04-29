@@ -161,17 +161,6 @@ class ReflectorNode extends TextureNode {
 
 	}
 
-	/**
-	 * Frees internal resources. Should be called when the node is no longer in use.
-	 */
-	dispose() {
-
-		super.dispose();
-
-		this._reflectorBaseNode.dispose();
-
-	}
-
 }
 
 /**
@@ -280,9 +269,9 @@ class ReflectorBaseNode extends Node {
 		/**
 		 * Weak map for managing render targets.
 		 *
-		 * @type {Map<Camera, RenderTarget>}
+		 * @type {WeakMap<Camera, RenderTarget>}
 		 */
-		this.renderTargets = new Map();
+		this.renderTargets = new WeakMap();
 
 		/**
 		 * Force render even if reflector is facing away from camera.
@@ -316,21 +305,6 @@ class ReflectorBaseNode extends Node {
 		this._updateResolution( _defaultRT, builder.renderer );
 
 		return super.setup( builder );
-
-	}
-
-	/**
-	 * Frees internal resources. Should be called when the node is no longer in use.
-	 */
-	dispose() {
-
-		super.dispose();
-
-		for ( const renderTarget of this.renderTargets.values() ) {
-
-			renderTarget.dispose();
-
-		}
 
 	}
 

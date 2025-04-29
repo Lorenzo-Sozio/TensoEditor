@@ -61,8 +61,6 @@ class TSLEncoder {
 		this.uniqueNames = false;
 		this.reference = false;
 
-		this._currentVariable = null;
-
 		this._currentProperties = {};
 		this._lastStatement = null;
 
@@ -323,22 +321,9 @@ class TSLEncoder {
 
 			let type = unaryLib[ node.type ];
 
-			if ( node.type === '++' || node.type === '--' ) {
+			if ( node.after === false && ( node.type === '++' || node.type === '--' ) ) {
 
-				if ( this._currentVariable === null ) {
-
-					// optimize increment/decrement operator
-					// to avoid creating a new variable
-
-					node.after = false;
-
-				}
-
-				if ( node.after === false ) {
-
-					type += 'Before';
-
-				}
+				type += 'Before';
 
 			}
 
@@ -466,34 +451,12 @@ ${ this.tab }} )`;
 		const name = node.initialization.name;
 		const type = node.initialization.type;
 		const condition = node.condition.type;
+		const update = node.afterthought.type;
 
 		const nameParam = name !== 'i' ? `, name: '${ name }'` : '';
 		const typeParam = type !== 'int' ? `, type: '${ type }'` : '';
 		const conditionParam = condition !== '<' ? `, condition: '${ condition }'` : '';
-
-		let updateParam = '';
-
-		if ( node.afterthought.isUnary ) {
-
-			if ( node.afterthought.type !== '++' ) {
-
-				updateParam = `, update: '${ node.afterthought.type }'`;
-
-			}
-
-		} else if ( node.afterthought.isOperator ) {
-
-			if ( node.afterthought.right.isAccessor || node.afterthought.right.isNumber ) {
-
-				updateParam = `, update: ${ this.emitExpression( node.afterthought.right ) }`;
-
-			} else {
-
-				updateParam = `, update: ( { i } ) => ${ this.emitExpression( node.afterthought ) }`;
-
-			}
-
-		}
+		const updateParam = update !== '++' ? `, update: '${ update }'` : '';
 
 		let loopStr = `Loop( { start: ${ start }, end: ${ end + nameParam + typeParam + conditionParam + updateParam } }, ( { ${ name } } ) => {\n\n`;
 
@@ -513,10 +476,8 @@ ${ this.tab }} )`;
 
 		if ( ( initialization && initialization.isVariableDeclaration && initialization.next === null ) &&
 			( condition && condition.left.isAccessor && condition.left.property === initialization.name ) &&
-			( afterthought && (
-				( afterthought.isUnary && ( initialization.name === afterthought.expression.property ) ) ||
-				( afterthought.isOperator && ( initialization.name === afterthought.left.property ) )
-			) )
+			( afterthought && afterthought.isUnary ) &&
+			( initialization.name === afterthought.expression.property )
 		) {
 
 			return this.emitLoop( node );
@@ -536,7 +497,7 @@ ${ this.tab }} )`;
 		this.tab += '\t';
 
 		let forStr = '{\n\n' + this.tab + initialization + ';\n\n';
-		forStr += `${ this.tab }Loop( ${ condition }, () => {\n\n`;
+		forStr += `${ this.tab }While( ${ condition }, () => {\n\n`;
 
 		forStr += this.emitBody( node.body ) + '\n\n';
 
@@ -548,7 +509,7 @@ ${ this.tab }} )`;
 
 		forStr += this.tab + '}';
 
-		this.imports.add( 'Loop' );
+		this.imports.add( 'While' );
 
 		return forStr;
 
@@ -557,8 +518,6 @@ ${ this.tab }} )`;
 	emitVariables( node, isRoot = true ) {
 
 		const { name, type, value, next } = node;
-
-		this._currentVariable = node;
 
 		const valueStr = value ? this.emitExpression( value ) : '';
 
@@ -596,8 +555,6 @@ ${ this.tab }} )`;
 		}
 
 		this.addImport( type );
-
-		this._currentVariable = null;
 
 		return varStr;
 

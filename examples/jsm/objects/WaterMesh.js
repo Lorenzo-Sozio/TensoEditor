@@ -153,7 +153,7 @@ class WaterMesh extends Mesh {
 
 		material.opacityNode = this.alpha;
 
-		material.receivedShadowPositionNode = positionWorld.add( distortion );
+		material.shadowPositionNode = positionWorld.add( distortion );
 
 		material.setupOutgoingLight = () => diffuseColor.rgb; // backwards compatibility
 

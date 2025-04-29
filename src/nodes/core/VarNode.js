@@ -167,7 +167,7 @@ const createVar = /*@__PURE__*/ nodeProxy( VarNode );
  * @param {?string} name - The name of the variable in the shader.
  * @returns {VarNode}
  */
-export const Var = ( node, name = null ) => createVar( node, name ).toStack();
+export const Var = ( node, name = null ) => createVar( node, name ).append();
 
 /**
  * TSL function for creating a const node.
@@ -178,7 +178,7 @@ export const Var = ( node, name = null ) => createVar( node, name ).toStack();
  * @param {?string} name - The name of the constant in the shader.
  * @returns {VarNode}
  */
-export const Const = ( node, name = null ) => createVar( node, name, true ).toStack();
+export const Const = ( node, name = null ) => createVar( node, name, true ).append();
 
 // Method chaining
 

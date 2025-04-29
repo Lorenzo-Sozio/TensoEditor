@@ -307,7 +307,6 @@
 		"webgpu_camera",
 		"webgpu_camera_array",
 		"webgpu_camera_logarithmicdepthbuffer",
-		"webgpu_caustics",
 		"webgpu_centroid_sampling",
 		"webgpu_clearcoat",
 		"webgpu_clipping",
@@ -454,7 +453,6 @@
 		"webgpu_tsl_vfx_tornado",
 		"webgpu_video_frame",
 		"webgpu_video_panorama",
-		"webgpu_volume_caustics",
 		"webgpu_volume_cloud",
 		"webgpu_volume_lighting",
 		"webgpu_volume_lighting_rectarea",
@@ -511,9 +509,7 @@
 		"physics_rapier_instancing",
 		"physics_rapier_joints",
 		"physics_rapier_character_controller",
-		"physics_rapier_vehicle_controller",
-		"physics_rapier_terrain"
-
+		"physics_rapier_vehicle_controller"
 	],
 	"misc": [
 		"misc_animation_groups",
