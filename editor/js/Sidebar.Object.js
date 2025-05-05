@@ -12,6 +12,7 @@ import { SetColorCommand } from './commands/SetColorCommand.js';
 import { SetShadowValueCommand } from './commands/SetShadowValueCommand.js';
 
 import { SidebarObjectAnimation } from './Sidebar.Object.Animation.js';
+import { EditorTabellaArticoli } from './custom/EditorTabellaArticoli.js';
 
 function SidebarObject(editor) {
 
@@ -395,6 +396,7 @@ function SidebarObject(editor) {
 
 	});
 
+
 	objectUserDataRow.add(new UIText(strings.getKey('sidebar/object/userdata')).setClass('Label'));
 	objectUserDataRow.add(objectUserData);
 
@@ -402,6 +404,8 @@ function SidebarObject(editor) {
 
 	// Export JSON
 
+	const btnJSONRow = new UIRow();
+		
 	const exportJson = new UIButton(strings.getKey('sidebar/object/export'));
 	exportJson.setMarginLeft('120px');
 	exportJson.onClick(function () {
@@ -425,11 +429,20 @@ function SidebarObject(editor) {
 		editor.utils.save(new Blob([output]), `${objectName.getValue() || 'object'}.json`);
 
 	});
-	container.add(exportJson);
+	btnJSONRow.add(exportJson);
 
 	// Animations
 
 	container.add(new SidebarObjectAnimation(editor));
+
+
+	const editorJson = new UIButton(strings.getKey('sidebar/object/editJSON'));
+	editorJson.setMarginLeft('20px');
+	editorJson.onClick(function () {
+		const editorArticoli = new EditorTabellaArticoli(editor, editor.selected);
+	});
+	btnJSONRow.add(editorJson);
+	container.add(btnJSONRow);
 
 	function update() {
 
@@ -744,6 +757,21 @@ function SidebarObject(editor) {
 
 	});
 
+	signals.editJsonData.add(function (object, userData) {
+
+		if (object !== null) {
+
+			editor.execute(new SetValueCommand(editor, object, 'userData', userData));
+
+			updateUI(object);
+
+		} else {
+
+			container.setDisplay('none');
+
+		}
+
+	});
 	function updateUI(object) {
 
 		objectType.setValue(object.type);

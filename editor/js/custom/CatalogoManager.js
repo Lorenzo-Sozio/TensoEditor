@@ -1,7 +1,7 @@
 import { SetValueCommand } from "../commands/SetValueCommand.js";
 
 export class CatalogoManager {
-  constructor(editor) {
+  constructor() {
     this.catalogo = [];
     this.server = "http://127.0.0.1:3000/api"; // Cambia questo con l'URL del tuo server
   }
@@ -48,16 +48,16 @@ export class CatalogoManager {
       let treeHtml = '<ul class="tree-ul">';
 
       items.forEach(item => {
-        // Determina se è un elemento padre (ha Articolo_Descrizione) o figlio
-        const isParent = item.Articolo_Descrizione !== undefined;
+        // Determina se è un elemento padre (ha ART_Descrizione) o figlio
+        const isParent = item.ART_Descrizione !== undefined;
         const hasChildren = item.children && item.children.length > 0;
 
         treeHtml += `<li class="tree-li">
-                    <div class="tree-item-container" data-id="${isParent ? item.Articolo_ID : item.ID}" data-code="${isParent ? item.Articolo_Codice : item.code}">
+                    <div class="tree-item-container" data-id="${isParent ? item.Articolo_ID : item.ID}" data-code="${isParent ? item.ART_Codice : item.code}">
                         ${hasChildren ? '<span class="caret"></span>' : '<span class="spacer"></span>'}
                         <span class="tree-item ${isParent ? 'parent-item' : 'child-item'}">
                             ${isParent ?
-            `${item.Articolo_Descrizione} (${item.Articolo_Codice})` :
+            `${item.ART_Descrizione} (${item.ART_Codice})` :
             `${item.code} (Qty: ${item.quantity})`}
                         </span>
                     </div>`;
@@ -243,7 +243,7 @@ export class CatalogoManager {
     //const expandAllBtn = document.getElementById('expand-all');
     //const collapseAllBtn = document.getElementById('collapse-all');
     let selectedArticolo_ID = null;
-    let selectedArticolo_Codice = null;
+    let selectedART_Codice = null;
     
     document.querySelectorAll(`#${this.treeId} .tree-item-container`).forEach(container => {
       container.addEventListener('click', function (e) {
@@ -259,7 +259,7 @@ export class CatalogoManager {
         const item = this.querySelector('.tree-item');
         item.classList.add('selected');
         selectedArticolo_ID = this.getAttribute('data-id');
-        selectedArticolo_Codice = this.getAttribute('data-code');
+        selectedART_Codice = this.getAttribute('data-code');
         
         // Mostra il pulsante Conferma
         confirmContainer.style.display = 'block';
@@ -334,13 +334,13 @@ export class CatalogoManager {
         return;
       }
         
-      console.log('Articolo selezionato:', selectedArticolo_ID, selectedArticolo_Codice);
-      if (selectedArticolo_ID && selectedArticolo_Codice) {
+      console.log('Articolo selezionato:', selectedArticolo_ID, selectedART_Codice);
+      if (selectedArticolo_ID && selectedART_Codice) {
         let object = editor.selected;
 
         editor.execute(new SetValueCommand(editor, object, 'userData', {
           'ARTICOLO_SYSID' : selectedArticolo_ID,
-          'ART_Codice' : selectedArticolo_Codice
+          'ART_Codice' : selectedART_Codice
         }));
         
 

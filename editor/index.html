@@ -65,6 +65,7 @@
 	</button>
 
 	<div id="catalogo-panel"></div>
+	<div id="editor-panel"></div>
 
 	<script type="module">
 
@@ -80,6 +81,7 @@
 		import { Menubar } from './js/Menubar.js';
 		import { Resizer } from './js/Resizer.js';
 		import { CatalogoManager } from './js/custom/CatalogoManager.js';
+		import { EditorTabellaArticoli } from './js/custom/EditorTabellaArticoli.js';
 		import ContextMenu from './js/ContextMenu.js';
 
 		window.URL = window.URL || window.webkitURL;
@@ -201,6 +203,8 @@
 		})
 
 
+	
+
 
 		// Crea un'istanza del menu
 		const contextMenu = new ContextMenu(editor, {
@@ -216,7 +220,7 @@
 					case 'opt_Cut':
 						editor.cutObj();
 						break;
-						case 'opt_Copy':
+					case 'opt_Copy':
 						editor.copyObj();
 						break;
 					case 'opt_Paste':

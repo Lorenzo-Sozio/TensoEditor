@@ -25,6 +25,7 @@ function Editor() {
 		// script
 
 		editScript: new Signal(),
+		editJsonData: new Signal(),
 
 		// player
 

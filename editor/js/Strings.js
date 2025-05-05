@@ -156,6 +156,7 @@ function Strings(config) {
 			'sidebar/object/renderorder': 'ترتیب رندر',
 			'sidebar/object/userdata': 'داده کاربر',
 			'sidebar/object/export': 'اکسپورت جیسون',
+			'sidebar/object/editJSON': 'ویرایش جیسون',
 
 			'sidebar/geometry/type': 'انواع',
 			'sidebar/geometry/new': 'جدید',
@@ -563,6 +564,7 @@ function Strings(config) {
 			'sidebar/object/renderorder': 'Render Order',
 			'sidebar/object/userdata': 'User data',
 			'sidebar/object/export': 'Export JSON',
+			'sidebar/object/editJSON': 'Edit JSON',
 
 			'sidebar/geometry/type': 'Type',
 			'sidebar/geometry/new': 'New',
@@ -971,6 +973,7 @@ function Strings(config) {
 			'sidebar/object/renderorder': 'Ordre de rendus',
 			'sidebar/object/userdata': 'Données utilisateur',
 			'sidebar/object/export': 'Exporter JSON',
+			'sidebar/object/editJSON': 'Éditer JSON',
 
 			'sidebar/geometry/type': 'Type',
 			'sidebar/geometry/new': 'Nouveau',
@@ -1379,6 +1382,7 @@ function Strings(config) {
 			'sidebar/object/renderorder': '渲染次序',
 			'sidebar/object/userdata': '自定义数据',
 			'sidebar/object/export': '导出JSON',
+			'sidebar/object/editJSON': '编辑JSON',
 
 			'sidebar/geometry/type': '类型',
 			'sidebar/geometry/new': '更新',
@@ -1787,6 +1791,7 @@ function Strings(config) {
 			'sidebar/object/renderorder': '描画順序',
 			'sidebar/object/userdata': 'ユーザーデータ',
 			'sidebar/object/export': 'JSONをエクスポート',
+			'sidebar/object/editJSON': 'JSONを編集',
 
 			'sidebar/geometry/type': 'タイプ',
 			'sidebar/geometry/new': '新規',
@@ -2194,6 +2199,7 @@ function Strings(config) {
 			'sidebar/object/renderorder': '렌더 순서',
 			'sidebar/object/userdata': '사용자 데이터',
 			'sidebar/object/export': 'JSON으로 내보내기',
+			'sidebar/object/editJSON': 'JSON 편집',
 
 			'sidebar/geometry/type': '타입',
 			'sidebar/geometry/new': '새로 만들기',
@@ -2600,6 +2606,7 @@ function Strings(config) {
 			'sidebar/object/renderorder': 'Ordine Rendering',
 			'sidebar/object/userdata': 'Dati Utente',
 			'sidebar/object/export': 'Esporta Oggetto (.JSON)',
+			'sidebar/object/editJSON': 'Modifica JSON',
 
 			'sidebar/geometry/type': 'Tipo',
 			'sidebar/geometry/new': 'Nuovo',

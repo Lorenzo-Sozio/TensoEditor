@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Tabella Articoli</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+        
+        .col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 200px;
+        }
+        
+        .table-container {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            position: sticky;
+            top: 0;
+            background-color: #f1f1f1;
+            z-index: 10;
+        }
+        
+        .action-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .action-button:hover {
+            background-color: #0069d9;
+        }
+        
+        .delete-button {
+            background-color: #dc3545;
+        }
+        
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+        
+        .action-panel {
+            margin-top: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        #searchResults {
+            position: absolute;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-top: none;
+            background-color: white;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .search-result-item {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        
+        .search-result-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .json-container {
+            max-height: 120px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        
+        #jsonOutput {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        
+        .footer {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        #saveButton {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        #saveButton:hover {
+            background-color: #218838;
+        }
+        
+        #cancelButton {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        #cancelButton:hover {
+            background-color: #5a6268;
+        }
+        
+        /* Stile per mostrare che un campo è obbligatorio */
+        .required::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Editor Tabella Articoli</h1>
+        
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="mainArticleCode" class="required">Codice Articolo</label>
+                    <input type="text" id="mainArticleCode" placeholder="Inserisci codice" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="mainArticleName" class="required">Nome Articolo</label>
+                    <input type="text" id="mainArticleName" placeholder="Inserisci nome" required>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="mainArticleType" class="required">Tipo Articolo</label>
+                    <select id="mainArticleType" required>
+                        <option value="">Seleziona tipo</option>
+                        <option value="Prodotto">Prodotto</option>
+                        <option value="Semilavorato">Semilavorato</option>
+                        <option value="Componente">Componente</option>
+                        <option value="Materia Prima">Materia Prima</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="mainArticleUnitMeasure" class="required">Unità di Misura</label>
+                    <select id="mainArticleUnitMeasure" required>
+                        <option value="">Seleziona unità</option>
+                        <option value="PZ">Pezzi (PZ)</option>
+                        <option value="KG">Kilogrammi (KG)</option>
+                        <option value="MT">Metri (MT)</option>
+                        <option value="LT">Litri (LT)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <h2>Componenti</h2>
+        
+        <div class="search-container">
+            <div class="form-group">
+                <label for="searchInput">Cerca Articolo nel Catalogo</label>
+                <input type="text" id="searchInput" placeholder="Digita per cercare nel catalogo...">
+            </div>
+            <div id="searchResults"></div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Codice</th>
+                        <th>Nome</th>
+                        <th>Tipo</th>
+                        <th>Quantità</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody id="componentsTableBody">
+                    <!-- I componenti verranno inseriti qui dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="action-panel">
+            <button id="addEmptyComponent" class="action-button">+ Aggiungi Componente Vuoto</button>
+        </div>
+        
+        <div class="form-group">
+            <label for="jsonOutput">JSON Output</label>
+            <div class="json-container">
+                <pre id="jsonOutput">{}</pre>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <button id="cancelButton">Annulla</button>
+            <button id="saveButton">Salva Articolo</button>
+        </div>
+    </div>
+    
+    <script type="module">
+        import { CatalogoManager } from './CatalogoManager.js';
+        import { EditorTabellaArticoli } from './EditorTabellaArticoli.js';
+        
+        // Inizializziamo l'editor tabella articoli
+        const editorTabellaArticoli = new EditorTabellaArticoli();
+        
+        // Esponiamo l'editor tabella articoli a livello globale
+        window.editorTabellaArticoli = editorTabellaArticoli;
+        
+        // Gestione dei pulsanti Salva e Annulla
+        document.getElementById('saveButton').addEventListener('click', () => {
+            // Recupera l'articolo corrente
+            const article = editorTabellaArticoli.getArticle();
+            
+            // Invia un messaggio alla finestra principale
+            if (window.parent) {
+                window.parent.postMessage({
+                    action: 'saveArticle',
+                    article: article
+                }, '*');
+            }
+            
+            console.log('Articolo salvato:', article);
+        });
+        
+        document.getElementById('cancelButton').addEventListener('click', () => {
+            // Invia un messaggio alla finestra principale per chiudere il modal
+            if (window.parent) {
+                window.parent.postMessage({
+                    action: 'closeModal'
+                }, '*');
+            }
+        });
+        
+        // Gestione dei messaggi dalla finestra principale
+        window.addEventListener('message', (event) => {
+            const data = event.data;
+            
+            if (data && data.action === 'command') {
+                switch (data.command) {
+                    case 'reloadCatalog':
+                        // Ricarica il catalogo
+                        editorTabellaArticoli.init();
+                        console.log('Catalogo ricaricato');
+                        break;
+                        
+                    case 'setArticle':
+                        // Imposta l'articolo nell'editor
+                        if (data.article) {
+                            editorTabellaArticoli.setArticle(data.article);
+                            console.log('Articolo impostato:', data.article);
+                        }
+                        break;
+                }
+            }
+        });
+        
+        // Se abbiamo ricevuto un articolo da editare, carichiamolo
+        if (window.parent && window.articleToEdit) {
+            editorTabellaArticoli.setArticle(window.articleToEdit);
+        }
