@@ -11,6 +11,7 @@ export class Modal {
    * @param {boolean} options.draggable - Se il modal è trascinabile (default: false)
    * @param {boolean} options.resizable - Se il modal è ridimensionabile (default: false)
    * @param {string} options.containerId - ID del container in cui inserire il modal (default: document.body)
+   * @param {string|HTMLElement} options.footer - Contenuto del footer (opzionale)
    */
   constructor(options = {}) {
     this.options = {
@@ -19,12 +20,14 @@ export class Modal {
       height: options.height || '80%',
       draggable: options.draggable || false,
       resizable: options.resizable || false,
-      containerId: options.containerId || null
+      containerId: options.containerId || null,
+      footer: options.footer || null
     };
     
     this.isOpen = false;
     this.modal = null;
     this.modalContent = null;
+    this.modalFooter = null;
 
     this.dragging = false;
     this.offset = { x: 0, y: 0 };
@@ -40,7 +43,8 @@ export class Modal {
     // Crea il container del modal
     this.modal = document.createElement('div');
     this.modal.className = 'custom-modal';
-    this.modal.style.display = 'none';
+    this.modal.style.display = 'flex';
+    this.modal.style.flexDirection = 'column';
     this.modal.style.position = 'fixed';
     this.modal.style.zIndex = '1000';
     this.modal.style.backgroundColor = '#fff';
@@ -90,13 +94,34 @@ export class Modal {
     // Crea il contenuto del modal
     this.modalContent = document.createElement('div');
     this.modalContent.className = 'custom-modal-content';
-    this.modalContent.style.padding = '0';
-    this.modalContent.style.height = 'calc(100% - 41px)'; // Altezza totale meno l'header
-
+    this.modalContent.style.padding = '25px';
+    this.modalContent.style.flex = '1';
+    this.modalContent.style.display = 'flex';
+    this.modalContent.style.flexDirection = 'column';
+    this.modalContent.style.overflowY = 'auto';
+    
+    // Crea il footer se specificato
+    if (this.options.footer) {
+      this.modalFooter = document.createElement('div');
+      this.modalFooter.className = 'custom-modal-footer';
+      this.modalFooter.style.padding = '10px';
+      this.modalFooter.style.backgroundColor = '#f1f1f1';
+      this.modalFooter.style.borderTop = '1px solid #ccc';
+      
+      if (typeof this.options.footer === 'string') {
+        this.modalFooter.innerHTML = this.options.footer;
+      } else if (this.options.footer instanceof HTMLElement) {
+        this.modalFooter.appendChild(this.options.footer);
+      }
+    }
     
     // Assembla il modal
     this.modal.appendChild(modalHeader);
     this.modal.appendChild(this.modalContent);
+    
+    if (this.modalFooter) {
+      this.modal.appendChild(this.modalFooter);
+    }
     
     // Crea l'overlay
     this.overlay = document.createElement('div');
@@ -236,7 +261,7 @@ export class Modal {
   open(url) {
     // Mostra l'overlay e il modal
     this.overlay.style.display = 'block';
-    this.modal.style.display = 'block';    
+    this.modal.style.display = 'flex';    
     this.isOpen = true;
     
     // Previeni lo scroll della pagina sottostante
@@ -307,5 +332,28 @@ export class Modal {
     this.modal.addEventListener(`modal:${event}`, (e) => {
       callback(e.detail, e);
     });
+  }
+  
+  /**
+   * Imposta o aggiorna il contenuto del footer
+   * @param {string|HTMLElement} content - Contenuto del footer
+   */
+  setFooter(content) {
+    if (!this.modalFooter) {
+      this.modalFooter = document.createElement('div');
+      this.modalFooter.className = 'custom-modal-footer';
+      this.modalFooter.style.padding = '10px';
+      this.modalFooter.style.backgroundColor = '#f1f1f1';
+      this.modalFooter.style.borderTop = '1px solid #ccc';
+      this.modal.appendChild(this.modalFooter);
+    }
+    
+    this.modalFooter.innerHTML = '';
+    
+    if (typeof content === 'string') {
+      this.modalFooter.innerHTML = content;
+    } else if (content instanceof HTMLElement) {
+      this.modalFooter.appendChild(content);
+    }
   }
 }

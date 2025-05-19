@@ -981,9 +981,21 @@ class ObjectLoader extends Loader {
 					box.min.fromArray( bound.boxMin );
 					box.max.fromArray( bound.boxMax );
 
+<<<<<<< HEAD
 					const sphere = new Sphere();
 					sphere.radius = bound.sphereRadius;
 					sphere.center.fromArray( bound.sphereCenter );
+=======
+						box = new Box3().fromJSON( info.boundingBox );
+
+					}
+
+					if ( info.boundingSphere !== undefined ) {
+
+						sphere = new Sphere().fromJSON( info.boundingSphere );
+
+					}
+>>>>>>> upstream/dev
 
 					return {
 						boxInitialized: bound.boxInitialized,
@@ -1003,7 +1015,30 @@ class ObjectLoader extends Loader {
 				object._geometryCount = data.geometryCount;
 
 				object._matricesTexture = getTexture( data.matricesTexture.uuid );
+<<<<<<< HEAD
 				if ( data.colorsTexture !== undefined ) object._colorsTexture = getTexture( data.colorsTexture.uuid );
+=======
+
+				object._indirectTexture = getTexture( data.indirectTexture.uuid );
+
+				if ( data.colorsTexture !== undefined ) {
+
+					object._colorsTexture = getTexture( data.colorsTexture.uuid );
+
+				}
+
+				if ( data.boundingSphere !== undefined ) {
+
+					object.boundingSphere = new Sphere().fromJSON( data.boundingSphere );
+
+				}
+
+				if ( data.boundingBox !== undefined ) {
+
+					object.boundingBox = new Box3().fromJSON( data.boundingBox );
+
+				}
+>>>>>>> upstream/dev
 
 				break;
 

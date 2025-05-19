@@ -564,7 +564,37 @@ class XRManager extends EventDispatcher {
 
 	}
 
+<<<<<<< HEAD
 	createQuadLayer( width, height, translation, quaternion, pixelwidth, pixelheight, rendercall, attributes = [] ) {
+=======
+	/**
+	 * Returns `true` if the engine renders to a multiview target.
+	 *
+	 * @return {boolean} Whether the engine renders to a multiview render target or not.
+	 */
+	useMultiview() {
+
+		return this._useMultiview;
+
+	}
+
+	/**
+	 * This method can be used in XR applications to create a quadratic layer that presents a separate
+	 * rendered scene.
+	 *
+	 * @param {number} width - The width of the layer plane in world units.
+	 * @param {number} height - The height of the layer plane in world units.
+	 * @param {Vector3} translation - The position/translation of the layer plane in world units.
+	 * @param {Quaternion} quaternion - The orientation of the layer plane expressed as a quaternion.
+	 * @param {number} pixelwidth - The width of the layer's render target in pixels.
+	 * @param {number} pixelheight - The height of the layer's render target in pixels.
+	 * @param {Function} rendercall - A callback function that renders the layer. Similar to code in
+	 * the default animation loop, this method can be used to update/transform 3D object in the layer's scene.
+	 * @param {Object} [attributes={}] - Allows to configure the layer's render target.
+	 * @return {Mesh} A mesh representing the quadratic XR layer. This mesh should be added to the XR scene.
+	 */
+	createQuadLayer( width, height, translation, quaternion, pixelwidth, pixelheight, rendercall, attributes = {} ) {
+>>>>>>> upstream/dev
 
 		const geometry = new PlaneGeometry( width, height );
 		const renderTarget = new XRRenderTarget(
@@ -589,6 +619,8 @@ class XRManager extends EventDispatcher {
 				resolveDepthBuffer: false,
 				resolveStencilBuffer: false
 			} );
+
+		renderTarget.autoAllocateDepthBuffer = true;
 
 		const material = new MeshBasicMaterial( { color: 0xffffff, side: FrontSide } );
 		material.map = renderTarget.texture;
@@ -637,7 +669,23 @@ class XRManager extends EventDispatcher {
 
 	}
 
-	createCylinderLayer( radius, centralAngle, aspectratio, translation, quaternion, pixelwidth, pixelheight, rendercall, attributes = [] ) {
+	/**
+	 * This method can be used in XR applications to create a cylindrical layer that presents a separate
+	 * rendered scene.
+	 *
+	 * @param {number} radius - The radius of the cylinder in world units.
+	 * @param {number} centralAngle - The central angle of the cylinder in radians.
+	 * @param {number} aspectratio - The aspect ratio.
+	 * @param {Vector3} translation - The position/translation of the layer plane in world units.
+	 * @param {Quaternion} quaternion - The orientation of the layer plane expressed as a quaternion.
+	 * @param {number} pixelwidth - The width of the layer's render target in pixels.
+	 * @param {number} pixelheight - The height of the layer's render target in pixels.
+	 * @param {Function} rendercall - A callback function that renders the layer. Similar to code in
+	 * the default animation loop, this method can be used to update/transform 3D object in the layer's scene.
+	 * @param {Object} [attributes={}] - Allows to configure the layer's render target.
+	 * @return {Mesh} A mesh representing the cylindrical XR layer. This mesh should be added to the XR scene.
+	 */
+	createCylinderLayer( radius, centralAngle, aspectratio, translation, quaternion, pixelwidth, pixelheight, rendercall, attributes = {} ) {
 
 		const geometry = new CylinderGeometry( radius, radius, radius * centralAngle / aspectratio, 64, 64, true, Math.PI - centralAngle / 2, centralAngle );
 		const renderTarget = new XRRenderTarget(
@@ -662,6 +710,8 @@ class XRManager extends EventDispatcher {
 				resolveDepthBuffer: false,
 				resolveStencilBuffer: false
 			} );
+
+		renderTarget.autoAllocateDepthBuffer = true;
 
 		const material = new MeshBasicMaterial( { color: 0xffffff, side: BackSide } );
 		material.map = renderTarget.texture;
@@ -711,19 +761,26 @@ class XRManager extends EventDispatcher {
 
 	}
 
+	/**
+	 * Renders the XR layers that have been previously added to the scene.
+	 *
+	 * This method is usually called in your animation loop before rendering
+	 * the actual scene via `renderer.render( scene, camera );`.
+	 */
 	renderLayers( ) {
 
 		const translationObject = new Vector3();
 		const quaternionObject = new Quaternion();
 
 		const wasPresenting = this.isPresenting;
+		const rendererOutputTarget = this._renderer.getOutputRenderTarget();
+		const rendererFramebufferTarget = this._renderer._frameBufferTarget;
 		this.isPresenting = false;
 
 		for ( const layer of this._layers ) {
 
 			layer.renderTarget.isXRRenderTarget = this._session !== null;
 			layer.renderTarget.hasExternalTextures = layer.renderTarget.isXRRenderTarget;
-			layer.renderTarget.autoAllocateDepthBuffer = ! layer.renderTarget.isXRRenderTarget;
 
 			if ( layer.renderTarget.isXRRenderTarget && this._supportsLayers ) {
 
@@ -733,17 +790,25 @@ class XRManager extends EventDispatcher {
 				this._renderer.backend.setXRRenderTargetTextures(
 					layer.renderTarget,
 					glSubImage.colorTexture,
-					glSubImage.depthStencilTexture );
+					undefined );
+
+				this._renderer.setOutputRenderTarget( layer.renderTarget );
+				this._renderer.setRenderTarget( null );
+
+			} else {
+
+				this._renderer.setRenderTarget( layer.renderTarget );
 
 			}
 
-			this._renderer.setRenderTarget( layer.renderTarget );
 			layer.rendercall();
 
 		}
 
 		this.isPresenting = wasPresenting;
 		this._renderer.setRenderTarget( null );
+		this._renderer.setOutputRenderTarget( rendererOutputTarget );
+		this._renderer._frameBufferTarget = rendererFramebufferTarget;
 
 	}
 
@@ -835,6 +900,12 @@ class XRManager extends EventDispatcher {
 				renderer.setPixelRatio( 1 );
 				renderer.setSize( glProjLayer.textureWidth, glProjLayer.textureHeight, false );
 
+<<<<<<< HEAD
+=======
+				const depth = this._useMultiview ? 2 : 1;
+				const depthTexture = new DepthTexture( glProjLayer.textureWidth, glProjLayer.textureHeight, depthType, undefined, undefined, undefined, undefined, undefined, undefined, depthFormat, depth );
+
+>>>>>>> upstream/dev
 				this._xrRenderTarget = new XRRenderTarget(
 					glProjLayer.textureWidth,
 					glProjLayer.textureHeight,
@@ -1212,9 +1283,7 @@ function onSessionEnd() {
 
 	// restore framebuffer/rendering state
 
-	renderer.backend.setXRTarget( null );
-	renderer.setOutputRenderTarget( null );
-	renderer.setRenderTarget( null );
+	renderer._resetXRState();
 
 	this._session = null;
 	this._xrRenderTarget = null;
@@ -1252,6 +1321,8 @@ function onSessionEnd() {
 
 			layer.plane.material = layer.material;
 			layer.material.map = layer.renderTarget.texture;
+			layer.material.map.offset.y = 1;
+			layer.material.map.repeat.y = - 1;
 			delete layer.xrlayer;
 
 		}
@@ -1263,7 +1334,6 @@ function onSessionEnd() {
 	this.isPresenting = false;
 
 	renderer._animation.stop();
-
 	renderer._animation.setAnimationLoop( this._currentAnimationLoop );
 	renderer._animation.setContext( this._currentAnimationContext );
 	renderer._animation.start();
@@ -1351,7 +1421,6 @@ function createXRLayer( layer ) {
 
 		return this._glBinding.createQuadLayer( {
 			transform: new XRRigidTransform( layer.translation, layer.quaternion ),
-			depthFormat: this._gl.DEPTH_COMPONENT,
 			width: layer.width / 2,
 			height: layer.height / 2,
 			space: this._referenceSpace,
@@ -1363,7 +1432,6 @@ function createXRLayer( layer ) {
 
 		return this._glBinding.createCylinderLayer( {
 			transform: new XRRigidTransform( layer.translation, layer.quaternion ),
-			depthFormat: this._gl.DEPTH_COMPONENT,
 			radius: layer.radius,
 			centralAngle: layer.centralAngle,
 			aspectRatio: layer.aspectRatio,

@@ -14,7 +14,7 @@ export class EditorTabellaArticoli {
       //containerId: "jsonEditor" // Opzionale: specifica il container
     });
     this.catalogData = [];
-    this.mainArticle = object.userData ||{
+    this.mainArticle = object.userData || {
       ARTICOLO_ID: "",
       ART_Codice: "",
       ART_Descrizione: "",
@@ -28,30 +28,23 @@ export class EditorTabellaArticoli {
 
   getEditorHTML() {
     return `
-      <div class="container">        
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label for="mainArticleCode" class="required">Codice Articolo</label>
-                    <input type="text" id="mainArticleCode" placeholder="Inserisci codice" required>
-                </div>
+       <div class="container">
+          <div class="search-container">
+            <div class="form-group">
+                <label for="searchInputArt">Cerca Articolo nel Catalogo</label>
+                <input type="text" id="searchInputArt" placeholder="Digita per cercare nel catalogo...">
             </div>
-            <div class="col">
-                <div class="form-group">
-                    <label for="mainArticleName" class="required">Descrizione Articolo</label>
-                    <input type="text" id="mainArticleName" placeholder="Inserisci descrizione" required>
-                </div>
-            </div>
+            <div id="searchResultsArt"></div>
         </div>
-        
+
         <h2>Componenti</h2>
         
         <div class="search-container">
             <div class="form-group">
-                <label for="searchInput">Cerca Articolo nel Catalogo</label>
-                <input type="text" id="searchInput" placeholder="Digita per cercare nel catalogo...">
+                <label for="searchInputChild">Cerca Articolo nel Catalogo</label>
+                <input type="text" id="searchInputChild" placeholder="Digita per cercare nel catalogo...">
             </div>
-            <div id="searchResults"></div>
+            <div id="searchResultsChild"></div>
         </div>
         
         <div class="table-container">
@@ -79,13 +72,12 @@ export class EditorTabellaArticoli {
                 <pre id="jsonOutput">{}</pre>
             </div>
         </div>
-        
-        <div class="footer">
+      </div>
+      <div class="footer">
             <button id="cancelButton">Annulla</button>
             <button id="saveButton">Salva</button>
         </div>
-      </div>
-      
+
       <style>
         .editor-tabella-articoli-container {
           font-family: Arial, sans-serif;
@@ -97,6 +89,10 @@ export class EditorTabellaArticoli {
           box-shadow: 0 0 15px rgba(0,0,0,0.1);
         }
         
+        .container {
+          flex:1;
+        }
+
         .container h1 {
           color: #333;
           margin-bottom: 20px;
@@ -139,7 +135,7 @@ export class EditorTabellaArticoli {
         
         .form-group input, 
         .form-group select {
-          width: 100%;
+          width: -webkit-fill-available;
           padding: 8px 12px;
           border: 1px solid #ddd;
           border-radius: 4px;
@@ -150,7 +146,7 @@ export class EditorTabellaArticoli {
           margin-bottom: 20px;
         }
         
-        #searchResults {
+        #searchResultsChild {
           display: none;
           border: 1px solid #ddd;
           border-radius: 4px;
@@ -159,6 +155,16 @@ export class EditorTabellaArticoli {
           margin-top: 5px;
         }
         
+        #searchResultsArt {
+          display: none;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          max-height: 200px;
+          overflow-y: auto;
+          margin-top: 5px;
+        }
+        
+
         .search-result-item {
           padding: 8px 12px;
           cursor: pointer;
@@ -267,6 +273,151 @@ export class EditorTabellaArticoli {
         #saveButton:hover {
           background-color: #27ae60;
         }
+        .search-results-table {
+          border-collapse: collapse;
+          width: 100%;
+          margin-top: 5px;
+        }
+
+        .search-results-table th {
+          background-color: #f8f9fa;
+          padding: 8px 12px;
+          text-align: left;
+          font-weight: bold;
+        }
+
+        .search-results-table td {
+          padding: 8px 12px;
+          border-bottom: 1px solid #eee;
+        }
+
+        .search-results-table tr.search-result-item:hover {
+          background-color: #f5f5f5;
+          cursor: pointer;
+        }
+
+        /* Aggiungi queste regole alla fine della sezione <style> esistente */
+
+@media (prefers-color-scheme: dark) {
+  .editor-tabella-articoli-container {
+    background-color: #111;
+    color: #aaa;
+  }
+
+  .container h1, 
+  .container h2 {
+    color: #ddd;
+    border-bottom-color: #333;
+  }
+
+  .form-group label {
+    color: #bbb;
+  }
+
+  .form-group input,
+  .form-group select {
+    background-color: #222;
+    border-color: #333;
+    color: #ddd;
+  }
+
+  .search-container {
+    background-color: #111;
+  }
+
+  #searchResultsChild,
+  #searchResultsArt {
+    background-color: #222;
+    border-color: #333;
+  }
+
+  .search-result-item {
+    color: #ddd;
+    border-bottom-color: #333;
+  }
+
+  .search-result-item:hover {
+    background-color: #2a2a2a;
+  }
+
+  table {
+    border-color: #333;
+  }
+
+  th {
+    background-color: #1a1a1a;
+    color: #ddd;
+  }
+
+  td {
+    border-bottom-color: #333;
+    color: #ddd;
+  }
+
+  tr:hover {
+    background-color: #2a2a2a;
+  }
+
+  .action-button {
+    background-color: #3498db;
+    color: white;
+  }
+
+  .action-button:hover {
+    background-color: #2980b9;
+  }
+
+  .delete-button {
+    background-color: #e74c3c;
+  }
+
+  .delete-button:hover {
+    background-color: #c0392b;
+  }
+
+  .json-container {
+    background-color: #1a1a1a;
+    border-color: #333;
+    color: #ddd;
+  }
+
+  #jsonOutput {
+    color: #ddd;
+  }
+
+  #cancelButton {
+    background-color: #333;
+    border-color: #444;
+    color: #ddd;
+  }
+
+  #cancelButton:hover {
+    background-color: #444;
+  }
+
+  #saveButton {
+    background-color: #2ecc71;
+    color: white;
+  }
+
+  #saveButton:hover {
+    background-color: #27ae60;
+  }
+
+  .search-results-table th {
+    background-color: #1a1a1a;
+    color: #ddd;
+  }
+
+  .search-results-table td {
+    border-bottom-color: #333;
+    color: #ddd;
+  }
+
+  .search-results-table tr.search-result-item:hover {
+    background-color: #2a2a2a;
+  }
+}
       </style>
     `;
   }
@@ -288,30 +439,14 @@ export class EditorTabellaArticoli {
 
   setupEventListeners() {
     // Aggiungi listener per elementi dell'interfaccia
-    const searchInput = this.modalContainer.modalContent.querySelector('#searchInput');
-    if (searchInput) {
-      searchInput.addEventListener('input', () => this.searchCatalog());
+    const searchInputChild = this.modalContainer.modalContent.querySelector('#searchInputChild');
+    if (searchInputChild) {
+      searchInputChild.addEventListener('input', () => this.searchCatalog(false));
     }
 
-    // Aggiungi listener per i campi dell'articolo principale
-    const mainArticleCode = this.modalContainer.modalContent.querySelector('#mainArticleCode');
-    if (mainArticleCode) {
-      mainArticleCode.addEventListener('change', () => this.updateMainArticle());
-    }
-
-    const mainArticleName = this.modalContainer.modalContent.querySelector('#mainArticleName');
-    if (mainArticleName) {
-      mainArticleName.addEventListener('change', () => this.updateMainArticle());
-    }
-
-    const mainArticleType = this.modalContainer.modalContent.querySelector('#mainArticleType');
-    if (mainArticleType) {
-      mainArticleType.addEventListener('change', () => this.updateMainArticle());
-    }
-
-    const mainArticleUnitMeasure = this.modalContainer.modalContent.querySelector('#mainArticleUnitMeasure');
-    if (mainArticleUnitMeasure) {
-      mainArticleUnitMeasure.addEventListener('change', () => this.updateMainArticle());
+    const searchInputArt = this.modalContainer.modalContent.querySelector('#searchInputArt');
+    if (searchInputArt) {
+      searchInputArt.addEventListener('input', () => this.searchCatalog(true));
     }
 
     // Pulsanti footer
@@ -326,24 +461,27 @@ export class EditorTabellaArticoli {
     }
   }
 
-  updateMainArticle() {
-    const mainArticleCode = this.modalContainer.modalContent.querySelector('#mainArticleCode');
-    const mainArticleDescription = this.modalContainer.modalContent.querySelector('#mainArticleDescription');
-    const mainArticleType = this.modalContainer.modalContent.querySelector('#mainArticleType');
-    const mainArticleUnitMeasure = this.modalContainer.modalContent.querySelector('#mainArticleUnitMeasure');
+  updateMainArticle(item) {
 
-    if (mainArticleCode) this.mainArticle.ART_Codice = mainArticleCode.value;
-    if (mainArticleDescription) this.mainArticle.ART_Descrizione = mainArticleDescription.value;
-    if (mainArticleType) this.mainArticle.tipo = mainArticleType.value;
-    if (mainArticleUnitMeasure) this.mainArticle.unita_misura = mainArticleUnitMeasure.value;
+    this.mainArticle.ARTICOLO_ID = item.ARTICOLO_ID || 0;
+    this.mainArticle.ART_Codice = item.ART_Codice;
+    this.mainArticle.ART_Descrizione = item.ART_Descrizione;
+    this.mainArticle.tipo = item.tipo;
+    //this.mainArticle.children = item.children || [];
 
     this.updateJsonView();
   }
 
-  searchCatalog() {
-    const searchInput = this.modalContainer.modalContent.querySelector('#searchInput');
-    const searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
-    const resultsContainer = this.modalContainer.modalContent.querySelector('#searchResults');
+  searchCatalog(p_article) {
+    let searchInput = this.modalContainer.modalContent.querySelector('#searchInputChild');
+    let searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
+    let resultsContainer = this.modalContainer.modalContent.querySelector('#searchResultsChild');
+
+    if (p_article == true) {
+      searchInput = this.modalContainer.modalContent.querySelector('#searchInputArt');
+      searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
+      resultsContainer = this.modalContainer.modalContent.querySelector('#searchResultsArt');
+    }
 
     if (!resultsContainer) return;
 
@@ -353,24 +491,71 @@ export class EditorTabellaArticoli {
       return;
     }
 
-    console.log('Ricerca nel catalogo:', searchTerm);
-    console.log('CatalogData:', this.catalogData);
     // Filtra il catalogo in base al termine di ricerca
     const filteredItems = this.catalogData.filter(item =>
       item.ART_Codice.toLowerCase().includes(searchTerm) ||
       item.ART_Descrizione.toLowerCase().includes(searchTerm)
     );
 
-    // Mostra i risultati
+    // Mostra i risultati in una tabella
     resultsContainer.innerHTML = '';
     if (filteredItems.length) {
-      filteredItems.forEach(item => {
-        const resultItem = document.createElement('div');
-        resultItem.className = 'search-result-item';
-        resultItem.innerHTML = `<strong>${item.ART_Codice}</strong> - ${item.ART_Descrizione}`;
-        resultItem.addEventListener('click', () => this.addComponentFromCatalog(item));
-        resultsContainer.appendChild(resultItem);
+      const table = document.createElement('table');
+      table.className = 'search-results-table';
+      table.style.width = '100%';
+
+      // Intestazione della tabella
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      ['Codice', 'Descrizione', 'Tipo'].forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        headerRow.appendChild(th);
       });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Corpo della tabella
+      const tbody = document.createElement('tbody');
+      filteredItems.forEach(item => {
+        const row = document.createElement('tr');
+        row.className = 'search-result-item';
+
+        // Cella nascosta per ARTICOLO_ID
+        const idCell = document.createElement('td');
+        idCell.style.display = 'none';
+        idCell.textContent = item.ARTICOLO_ID;
+        idCell.setAttribute('data-ref', 'ARTICOLO_ID');  // Add reference
+        row.appendChild(idCell);
+
+        // Cella Codice
+        const codeCell = document.createElement('td');
+        codeCell.textContent = item.ART_Codice;
+        codeCell.setAttribute('data-ref', 'ART_Codice');  // Add reference
+        row.appendChild(codeCell);
+
+        // Cella Descrizione
+        const descCell = document.createElement('td');
+        descCell.textContent = item.ART_Descrizione;
+        descCell.setAttribute('data-ref', 'ART_Descrizione');  // Add reference
+        row.appendChild(descCell);
+
+        // Cella Tipo
+        const typeCell = document.createElement('td');
+        typeCell.textContent = item.tipo || '';
+        typeCell.setAttribute('data-ref', 'tipo');  // Add reference
+        row.appendChild(typeCell);
+
+        if (p_article == true) {
+          row.addEventListener('click', () => this.updateMainArticle(item));
+        } else {
+          row.addEventListener('click', () => this.addComponentFromCatalog(item));
+        }
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      resultsContainer.appendChild(table);
       resultsContainer.style.display = 'block';
     } else {
       resultsContainer.innerHTML = '<div class="search-result-item">Nessun risultato trovato</div>';
@@ -387,6 +572,11 @@ export class EditorTabellaArticoli {
       quantita: 1
     };
 
+    if (!this.mainArticle.ARTICOLO_ID) this.mainArticle.ARTICOLO_ID = 0;
+    if (!this.mainArticle.ART_Codice) this.mainArticle.ART_Codice = '';
+    if (!this.mainArticle.ART_Descrizione) this.mainArticle.ART_Descrizione = '';
+    if (!this.mainArticle.children) this.mainArticle.children = [];
+
     // Aggiungi il nuovo componente
     this.mainArticle.children.push(component);
 
@@ -394,13 +584,13 @@ export class EditorTabellaArticoli {
     this.renderComponentsTable();
     this.updateJsonView();
 
-    const searchResults = this.modalContainer.modalContent.querySelector('#searchResults');
-    const searchInput = this.modalContainer.modalContent.querySelector('#searchInput');
-    if (searchResults) searchResults.style.display = 'none';
-    if (searchInput) searchInput.value = '';
+    const searchResultsChild = this.modalContainer.modalContent.querySelector('#searchResultsChild');
+    const searchInputChild = this.modalContainer.modalContent.querySelector('#searchInputChild');
+    if (searchResultsChild) searchResultsChild.style.display = 'none';
+    if (searchInputChild) searchInputChild.value = '';
   }
 
-  addEmptyComponent() {
+  /*addEmptyComponent() {
     const component = {
       id: "",
       nome: "",
@@ -411,7 +601,7 @@ export class EditorTabellaArticoli {
     this.mainArticle.children.push(component);
     this.renderComponentsTable();
     this.updateJsonView();
-  }
+  }*/
 
   updateComponent(index, field, value) {
     if (field === 'id') {
@@ -420,6 +610,7 @@ export class EditorTabellaArticoli {
       // Aggiorna anche nome e tipo se trovati nel catalogo
       const catalogItem = this.catalogData.find(item => item.id === value);
       if (catalogItem) {
+        this.mainArticle.children[index].ARTICOLO_ID = catalogItem.ARTICOLO_ID;
         this.mainArticle.children[index].ART_Codice = catalogItem.ART_Codice;
         this.mainArticle.children[index].ART_Descrizione = catalogItem.ART_Descrizione;
         this.mainArticle.children[index].tipo = catalogItem.tipo;
@@ -497,24 +688,6 @@ export class EditorTabellaArticoli {
     if (jsonOutput) {
       jsonOutput.textContent = JSON.stringify(this.mainArticle, null, 2);
     }
-  }
-
-  setArticle(article) {
-    this.mainArticle = article;
-
-    // Aggiorna i campi dell'interfaccia
-    const mainArticleCode = this.modalContainer.modalContent.querySelector('#mainArticleCode');
-    const mainArticleName = this.modalContainer.modalContent.querySelector('#mainArticleName');
-    const mainArticleType = this.modalContainer.modalContent.querySelector('#mainArticleType');
-    const mainArticleUnitMeasure = this.modalContainer.modalContent.querySelector('#mainArticleUnitMeasure');
-
-    if (mainArticleCode) mainArticleCode.value = article.id || '';
-    if (mainArticleName) mainArticleName.value = article.nome || '';
-    if (mainArticleType) mainArticleType.value = article.tipo || '';
-    if (mainArticleUnitMeasure) mainArticleUnitMeasure.value = article.unita_misura || '';
-
-    this.updateJsonView();
-    this.renderComponentsTable();
   }
 
   getArticle() {

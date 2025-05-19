@@ -557,13 +557,17 @@ ${ flowData.code }
 
 				}
 
+<<<<<<< HEAD
 				if ( uniform.type === 'texture3D' ) {
+=======
+				if ( uniform.type === 'texture3D' && texture.isArrayTexture === false ) {
+>>>>>>> upstream/dev
 
 					snippet = `${typePrefix}sampler3D ${ uniform.name };`;
 
 				} else if ( texture.compareFunction ) {
 
-					if ( texture.isDepthArrayTexture === true ) {
+					if ( texture.isArrayTexture === true ) {
 
 						snippet = `sampler2DArrayShadow ${ uniform.name };`;
 
@@ -573,7 +577,11 @@ ${ flowData.code }
 
 					}
 
+<<<<<<< HEAD
 				} else if ( texture.isDataArrayTexture === true || texture.isCompressedArrayTexture === true ) {
+=======
+				} else if ( texture.isArrayTexture === true || texture.isDataArrayTexture === true || texture.isCompressedArrayTexture === true ) {
+>>>>>>> upstream/dev
 
 					snippet = `${typePrefix}sampler2DArray ${ uniform.name };`;
 

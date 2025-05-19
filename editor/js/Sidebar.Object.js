@@ -13,6 +13,7 @@ import { SetShadowValueCommand } from './commands/SetShadowValueCommand.js';
 
 import { SidebarObjectAnimation } from './Sidebar.Object.Animation.js';
 import { EditorTabellaArticoli } from './custom/EditorTabellaArticoli.js';
+import { SceneJsonEditor } from './custom/SceneJsonEditor.js';
 
 function SidebarObject(editor) {
 
@@ -443,7 +444,7 @@ function SidebarObject(editor) {
 	});
 	btnJSONRow.add(editorJson);
 	container.add(btnJSONRow);
-
+	
 	function update() {
 
 		const object = editor.selected;

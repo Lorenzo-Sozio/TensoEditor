@@ -1,4 +1,5 @@
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
+import { SceneJsonEditor } from './custom/SceneJsonEditor.js';
 import { UIPanel, UIRow, UIHorizontalRule } from './libs/ui.js';
 import {STLLoader} from 'three/examples/jsm/loaders/STLLoader.js';
 
@@ -176,6 +177,49 @@ function MenubarFile( editor ) {
 			editor.utils.save( blob, 'project.json' );
 
 		} );
+
+	options.add( option );
+
+	option = new UIRow()
+	.addClass( 'option' )
+	.setTextContent( strings.getKey( 'menubar/file/saveData' ) )
+	.onClick( function () {
+
+		const loopChildren = function (children, leaf,parentJson) {
+			if(!children) return;
+			
+			children.forEach(function (child) {
+				//leaf = leaf + " -> " + child.name
+				//console.log("child " + leaf);
+				
+				if(!child.userData.ART_Codice) return; //se non ho un JSON valido non lo aggiungo
+				//console.log("child " + leaf+ " -> " + child.name, child.userData);
+				
+				if(!parentJson.children) parentJson.children = [];
+				let newIdx = parentJson.children.push({...child.userData})-1;
+				loopChildren(child.children, leaf+ " -> " + child.name, parentJson.children[newIdx]);
+			});
+		}
+
+		let globalJson = [];
+
+		editor.scene.traverse(function (object) {
+			if(object.type == 'Scene') return;
+			if(object.parent.type != 'Scene') return;
+			if(!object.userData.ART_Codice) return; //se non ho un JSON valido non lo aggiungo
+
+			let leaf = object.parent.name + " -> " + object.name;
+			//arrivo qui solo se l'oggetto è un figlio diretto della scena (primo livello)
+			//console.log("object " + leaf, object);
+			
+			let newIdx = globalJson.push({...object.userData})-1;
+			loopChildren(object.children, leaf,globalJson[newIdx]);
+		  });
+
+		  //console.log("globalJson", JSON.stringify(globalJson));
+
+		  const fullJsonEditor = new SceneJsonEditor(editor, globalJson);
+	} );
 
 	options.add( option );
 

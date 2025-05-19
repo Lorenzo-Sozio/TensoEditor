@@ -25,6 +25,7 @@ const getLightNodeById = ( id, lightNodes ) => {
 };
 
 const _lightsNodeRef = /*@__PURE__*/ new WeakMap();
+const _hashData = [];
 
 /**
  * This node represents the scene's lighting and manages the lighting model's life cycle
@@ -114,16 +115,43 @@ class LightsNode extends Node {
 	 */
 	customCacheKey() {
 
+<<<<<<< HEAD
 		const lightIDs = [];
+=======
+>>>>>>> upstream/dev
 		const lights = this._lights;
 
 		for ( let i = 0; i < lights.length; i ++ ) {
 
+<<<<<<< HEAD
 			lightIDs.push( lights[ i ].id );
 
 		}
 
 		return hashArray( lightIDs );
+=======
+			const light = lights[ i ];
+
+			_hashData.push( light.id );
+			_hashData.push( light.castShadow ? 1 : 0 );
+
+			if ( light.isSpotLight === true ) {
+
+				const hashMap = ( light.map !== null ) ? light.map.id : - 1;
+				const hashColorNode = ( light.colorNode ) ? light.colorNode.getCacheKey() : - 1;
+
+				_hashData.push( hashMap, hashColorNode );
+
+			}
+
+		}
+
+		const cacheKey = hashArray( _hashData );
+
+		_hashData.length = 0;
+
+		return cacheKey;
+>>>>>>> upstream/dev
 
 	}
 

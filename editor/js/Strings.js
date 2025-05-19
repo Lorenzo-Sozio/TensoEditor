@@ -50,6 +50,7 @@ function Strings(config) {
 			'menubar/file/save': 'ذخیره تغییرات',
 			'menubar/file/import': 'ایمپورت',
 			'menubar/file/export': 'اکسپورت',
+			'menubar/file/saveData': 'ذخیره داده',
 
 			'menubar/edit': 'تغییر',
 			'menubar/edit/undo': 'بازگشت',
@@ -458,6 +459,7 @@ function Strings(config) {
 			'menubar/file/save': 'Save',
 			'menubar/file/import': 'Import',
 			'menubar/file/export': 'Export',
+			'menubar/file/saveData': 'Save Data',
 
 			'menubar/edit': 'Edit',
 			'menubar/edit/undo': 'Undo',
@@ -867,6 +869,7 @@ function Strings(config) {
 			'menubar/file/save': 'Save',
 			'menubar/file/import': 'Importer',
 			'menubar/file/export': 'Exporter',
+			'menubar/file/saveData': 'Enregistrer les données',
 
 			'menubar/edit': 'Edition',
 			'menubar/edit/undo': 'Annuler',
@@ -1276,6 +1279,7 @@ function Strings(config) {
 			'menubar/file/save': '保存',
 			'menubar/file/import': '导入',
 			'menubar/file/export': '导出',
+			'menubar/file/saveData': '保存数据',
 
 			'menubar/edit': '编辑',
 			'menubar/edit/undo': '撤销',
@@ -1685,6 +1689,7 @@ function Strings(config) {
 			'menubar/file/save': '保存',
 			'menubar/file/import': 'インポート',
 			'menubar/file/export': 'エクスポート',
+			'menubar/file/saveData': 'データを保存',			
 
 			'menubar/edit': '編集',
 			'menubar/edit/undo': '元に戻す',
@@ -2093,6 +2098,7 @@ function Strings(config) {
 			'menubar/file/save': '저장',
 			'menubar/file/import': '가져오기',
 			'menubar/file/export': '내보내기',
+			'menubar/file/saveData': '데이터 저장',
 
 			'menubar/edit': '편집',
 			'menubar/edit/undo': '되돌리기',
@@ -2500,6 +2506,7 @@ function Strings(config) {
 			'menubar/file/save': 'Salva',
 			'menubar/file/import': 'Importa',
 			'menubar/file/export': 'Esporta',
+			'menubar/file/saveData': 'Salva Dati',
 
 			'menubar/edit': 'Modifica',
 			'menubar/edit/undo': 'Annulla',
