@@ -73,11 +73,7 @@ export class EditorTabellaArticoli {
             </div>
         </div>
       </div>
-      <div class="footer">
-            <button id="cancelButton">Annulla</button>
-            <button id="saveButton">Salva</button>
-        </div>
-
+      
       <style>
         .editor-tabella-articoli-container {
           font-family: Arial, sans-serif;
@@ -240,39 +236,6 @@ export class EditorTabellaArticoli {
           font-family: monospace;
           white-space: pre-wrap;
         }
-        
-        .footer {
-          display: flex;
-          justify-content: flex-end;
-          gap: 10px;
-          margin-top: 20px;
-        }
-        
-        .footer button {
-          padding: 8px 20px;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 14px;
-        }
-        
-        #cancelButton {
-          background-color: #f1f1f1;
-          border: 1px solid #ddd;
-        }
-        
-        #cancelButton:hover {
-          background-color: #e0e0e0;
-        }
-        
-        #saveButton {
-          background-color: #2ecc71;
-          color: white;
-          border: none;
-        }
-        
-        #saveButton:hover {
-          background-color: #27ae60;
-        }
         .search-results-table {
           border-collapse: collapse;
           width: 100%;
@@ -422,6 +385,98 @@ export class EditorTabellaArticoli {
     `;
   }
 
+
+  getFooterHTML() {
+    return `
+          <div class="editor-footer">
+              <div class="status-bar">
+              </div>
+              <div class="footer-actions">
+                <button class="modal-button" id="cancelButton">Annulla</button>
+                <button class="modal-button" id="saveButton">Salva</button>
+              </div>
+            </div>
+          
+          <style>            
+            .editor-footer {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding-top: 10px;
+              //border-top: 1px solid #eee;
+            }
+            
+            .footer-actions {
+              display: flex;
+              gap: 8px;
+            }
+            
+            .modal-button {
+              padding: 8px 16px;
+              border-radius: 4px;
+              border: 0;
+              font-size: 13px;
+              font-weight: 500;
+              cursor: pointer;
+              outline: none;
+              transition: background-color 0.2s ease;
+            }
+            
+            #cancelButton {
+              background-color: #f1f1f1;
+              border: 1px solid #ddd;
+              color: #333;
+            }
+            
+            #cancelButton:hover {
+              background-color: #e0e0e0;
+            }
+            
+            #saveButton {
+              background-color: #2ecc71;
+              color: white;
+              border: none;
+            }
+            
+            #saveButton:hover {
+              background-color: #27ae60;
+            }
+              
+            /* Dark Mode */
+            @media (prefers-color-scheme: dark) {
+              
+              #cancelButton {
+                background-color: #333;
+                border-color: #444;
+                color: #ddd;
+              }
+              
+              #cancelButton:hover {
+                background-color: #444;
+              }
+              
+              #saveButton {
+                background-color: #2980b9;
+              }
+              
+              #saveButton:hover {
+                background-color: #3498db;
+              }
+              
+              .modal-button {
+                color: #ddd;
+                background-color: #333;
+              }
+              
+              button:hover {
+                background-color: #444;
+              }
+              
+            }
+          </style>
+        `;
+  }
+
   async init() {
     try {
       // Carica i dati dal catalogo
@@ -450,12 +505,12 @@ export class EditorTabellaArticoli {
     }
 
     // Pulsanti footer
-    const cancelButton = this.modalContainer.modalContent.querySelector('#cancelButton');
+    const cancelButton = this.modalContainer.modalFooter.querySelector('#cancelButton');
     if (cancelButton) {
       cancelButton.addEventListener('click', () => this.closeEditor());
     }
 
-    const saveButton = this.modalContainer.modalContent.querySelector('#saveButton');
+    const saveButton = this.modalContainer.modalFooter.querySelector('#saveButton');
     if (saveButton) {
       saveButton.addEventListener('click', () => this.saveArticle());
     }
@@ -701,6 +756,10 @@ export class EditorTabellaArticoli {
 
   openEditor() {
     this.modalContainer.modalContent.innerHTML = this.getEditorHTML();
+
+    const footerContent = this.getFooterHTML();
+    this.modalContainer.setFooter(footerContent);
+
     this.modalContainer.open();
 
     this.setupEventListeners();

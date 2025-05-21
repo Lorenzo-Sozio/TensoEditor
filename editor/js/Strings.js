@@ -392,6 +392,7 @@ function Strings(config) {
 			'toolbar/clone': 'شبیه سازی',
 			'toolbar/group': 'گروه',
 			'toolbar/local': 'لوکال',
+			'toolbar/detectCollision': 'تشخیص برخورد',
 
 			'viewport/controls/grid': 'گرید',
 			'viewport/controls/helpers': 'کمک کننده',
@@ -801,6 +802,7 @@ function Strings(config) {
 			'toolbar/clone': 'Clone',
 			'toolbar/group': 'Group',
 			'toolbar/local': 'Local',
+			'toolbar/detectCollision': 'Detect Collision',
 
 			'viewport/controls/grid': 'Grid',
 			'viewport/controls/helpers': 'Helpers',
@@ -1211,6 +1213,7 @@ function Strings(config) {
 			'toolbar/clone': 'Cloner',
 			'toolbar/group': 'Groupe',
 			'toolbar/local': 'Local',
+			'toolbar/detectCollision': 'Détecter les collisions',
 
 			'viewport/controls/grid': 'Grille',
 			'viewport/controls/helpers': 'Helpers',
@@ -1621,6 +1624,7 @@ function Strings(config) {
 			'toolbar/clone': '克隆',
 			'toolbar/group': '分组',
 			'toolbar/local': '本地',
+			'toolbar/detectCollision': '检测碰撞',
 
 			'viewport/controls/grid': '网格',
 			'viewport/controls/helpers': '辅助',
@@ -2031,6 +2035,7 @@ function Strings(config) {
 			'toolbar/clone': 'クローン',
 			'toolbar/group': 'グループ',
 			'toolbar/local': 'ローカル',
+			'toolbar/detectCollision': '衝突検出',
 
 			'viewport/controls/grid': 'グリッド',
 			'viewport/controls/helpers': 'オーバーレイ表示',
@@ -2440,6 +2445,7 @@ function Strings(config) {
 			'toolbar/clone': '복제',
 			'toolbar/group': '그룹',
 			'toolbar/local': '로컬',
+			'toolbar/detectCollision': '충돌 감지',
 
 			'viewport/controls/grid': '그리드',
 			'viewport/controls/helpers': '도우미 보기',
@@ -2848,6 +2854,7 @@ function Strings(config) {
 			'toolbar/clone': 'Clona',
 			'toolbar/group': 'Raggruppa',
 			'toolbar/local': 'Locale',
+			'toolbar/detectCollision':	'Rileva Collisione',
 
 			'viewport/controls/grid': 'Griglia',
 			'viewport/controls/helpers': 'Aiuti',

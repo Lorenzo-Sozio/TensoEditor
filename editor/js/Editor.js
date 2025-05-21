@@ -64,6 +64,8 @@ function Editor() {
 
 		geometryChanged: new Signal(),
 
+		detectionCollisionChanged: new Signal(),
+
 		objectSelected: new Signal(),
 		objectFocused: new Signal(),
 
@@ -122,6 +124,7 @@ function Editor() {
 	this.materials = {};
 	this.textures = {};
 	this.scripts = {};
+	this.detectCollision = false;
 
 	this.materialsRefCounter = new Map(); // tracks how often is a material used by a 3D object
 

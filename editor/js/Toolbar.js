@@ -53,15 +53,6 @@ function Toolbar(editor) {
 	});
 	container.add(scale);
 
-	/*const local = new UICheckbox( false );
-	local.dom.title = strings.getKey( 'toolbar/local' );
-	local.onChange( function () {
-
-		signals.spaceChanged.dispatch( this.getValue() === true ? 'local' : 'world' );
-
-	} );
-	container.add( local );*/
-
 	// Clone
 	const cloneIcon = document.createElement('img');
 	cloneIcon.title = strings.getKey('toolbar/clone');
@@ -142,7 +133,24 @@ function Toolbar(editor) {
 
 	container.add(groupBtn);
 
+	// CollisionDetection Checkbox
+	const collisionDetection = new UICheckbox(false);
+	collisionDetection.dom.title = strings.getKey('toolbar/detectCollision');
+	collisionDetection.onChange(function () {
+		//signals.detectionCollisionChanged.dispatch(this.getValue());
+		editor.collisionDetection = this.getValue();
+	});
+	container.add(collisionDetection);
 
+	// Local Checkbox
+	const local = new UICheckbox(false);
+	local.dom.title = strings.getKey('toolbar/local');
+	local.onChange(function () {
+
+		signals.spaceChanged.dispatch(this.getValue() === true ? 'local' : 'world');
+
+	});
+	container.add(local);
 	/*// Center View
 	const centerViewIcon = document.createElement('img');
 	centerViewIcon.title = strings.getKey('toolbar/centerview');

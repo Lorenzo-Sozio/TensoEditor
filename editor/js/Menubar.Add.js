@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import { UIPanel, UIRow } from './libs/ui.js';
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
-import { ModelsManager } from './ModelsManager.js';
+import { ModelsManager } from './custom/ModelsManager_obsoleto.js';
+import { ModelManager } from './custom/ModelManager.js';
 
 function MenubarAdd(editor) {
 
@@ -36,6 +37,18 @@ function MenubarAdd(editor) {
 
 	// Models
 
+	option = new UIRow();
+	option.setClass('option');
+	option.setTextContent(strings.getKey('menubar/add/models'));
+	option.onClick(function () {
+
+		let modelMan = new ModelManager(editor);
+		//modelMan.openEditor();
+	});
+	options.add(option);
+
+	// Models v2
+	/*
 	const modelsSubmenuTitle = new UIRow().setTextContent(strings.getKey('menubar/add/models')).addClass('option').addClass('submenu-title');
 	modelsSubmenuTitle.onMouseOver(function () {
 
@@ -56,7 +69,7 @@ function MenubarAdd(editor) {
 
 	const modelsSubmenu = new UIPanel().setPosition('fixed').addClass('options').setDisplay('none');
 	modelsSubmenuTitle.add(modelsSubmenu);
-	
+
 	let modelMan = new ModelsManager(editor, modelsSubmenu);
 	let arr = modelMan.getModels();
 	for (let i = 0; i < arr.length; i++) {
@@ -68,7 +81,7 @@ function MenubarAdd(editor) {
 		});
 		modelsSubmenu.add(option);
 	}
-
+	*/
 	// Mesh
 
 	const meshSubmenuTitle = new UIRow().setTextContent(strings.getKey('menubar/add/mesh')).addClass('option').addClass('submenu-title');
@@ -364,14 +377,14 @@ function MenubarAdd(editor) {
 	option.onClick(function () {
 
 		//const geometry = new THREE.CylinderGeometry(1, 1, 1, 32, 1, false, 0, Math.PI * 2);
-		let geometry = new THREE.CylinderGeometry( 0.8 / Math.sqrt( 2 ), 1 / Math.sqrt( 2 ), 1, 2, 1 ); // size of top can be changed
+		let geometry = new THREE.CylinderGeometry(0.8 / Math.sqrt(2), 1 / Math.sqrt(2), 1, 2, 1); // size of top can be changed
 		//geometry.rotateY( Math.PI / 4 );
 		//geometry = geometry.toNonIndexed(); // removes shared vertices
 		geometry.computeVertexNormals(); // normals will be 'flat' normals
-		
+
 		let material = new THREE.MeshStandardMaterial();
 		material.flatShading = true;
-		
+
 		const mesh = new THREE.Mesh(geometry, material);
 		//mesh.scale.set( width, height, depth );
 		mesh.name = 'Trapezoid';

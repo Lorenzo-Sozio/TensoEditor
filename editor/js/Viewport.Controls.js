@@ -21,7 +21,8 @@ function ViewportControls(editor) {
 
 	} );
 	container.add( cameraSelect );
-
+	*/
+	
 	signals.cameraAdded.add( update );
 	signals.cameraRemoved.add( update );
 	signals.objectChanged.add( function ( object ) {
@@ -33,7 +34,7 @@ function ViewportControls(editor) {
 		}
 
 	} );
-*/
+
 	// shading
 
 	const shadingSelect = new UISelect();

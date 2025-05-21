@@ -71,9 +71,9 @@ export class SceneJsonEditor {
               <span class="search-icon">🔍</span>
             </div>
             <div class="editor-actions">
-              <button id="expandAllButton" title="Espandi tutti">⊞</button>
-              <button id="collapseAllButton" title="Comprimi tutti">⊟</button>
-              <button id="addItemButton" title="Aggiungi elemento">+</button>
+              <button class="modal-buttons" id="expandAllButton" title="Espandi tutti">⊞</button>
+              <button class="modal-buttons" id="collapseAllButton" title="Comprimi tutti">⊟</button>
+              <button class="modal-buttons" id="addItemButton" title="Aggiungi elemento">+</button>
             </div>
           </div>
           
@@ -291,7 +291,7 @@ export class SceneJsonEditor {
             gap: 8px;
           }
           
-          button {
+          .modal-buttons {
             padding: 8px 16px;
             border-radius: 4px;
             border: 0;
@@ -428,8 +428,8 @@ export class SceneJsonEditor {
               <div class="status-bar">
               </div>
               <div class="footer-actions">
-                <button id="cancelButton">Annulla</button>
-                <button id="saveButton">Salva</button>
+                <button class="modal-buttons" id="cancelButton">Annulla</button>
+                <button class="modal-buttons" id="saveButton">Salva</button>
               </div>
             </div>
           
@@ -447,7 +447,7 @@ export class SceneJsonEditor {
               gap: 8px;
             }
             
-            button {
+            .modal-buttons {
               padding: 8px 16px;
               border-radius: 4px;
               border: 0;
@@ -534,7 +534,7 @@ export class SceneJsonEditor {
     cell.innerHTML = `
             <div class="empty-table-message">
                 <div>Nessun dato disponibile</div>
-                <button id="addFirstItemButton" style="margin-top: 10px;">Aggiungi elemento</button>
+                <button class="modal-buttons" id="addFirstItemButton" style="margin-top: 10px;">Aggiungi elemento</button>
             </div>
         `;
     row.appendChild(cell);
