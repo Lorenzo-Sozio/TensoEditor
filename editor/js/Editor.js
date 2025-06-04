@@ -124,7 +124,6 @@ function Editor() {
 	this.materials = {};
 	this.textures = {};
 	this.scripts = {};
-	this.detectCollision = false;
 
 	this.materialsRefCounter = new Map(); // tracks how often is a material used by a 3D object
 
@@ -140,8 +139,8 @@ function Editor() {
 
 	this.addCamera(this.camera);
 
-	
-	
+
+
 	const renderer = new THREE.WebGLRenderer();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 	renderer.setClearColor(new THREE.Color(0x263238), 1);
@@ -769,24 +768,31 @@ Editor.prototype = {
 	},
 
 	cutObj: function () {
-		if(!this.selected) return;
+		if (!this.selected) return;
 		this.objectClipboard = this.selected;
+		this.objectClipboard.operation = 'cut';
 		this.execute(new RemoveObjectCommand(this, this.selected));
 	},
 
 	copyObj: function () {
-		if(!this.selected) return;
+		if (!this.selected) return;
 		this.objectClipboard = this.selected;
+		this.objectClipboard.operation = 'copy';
 	},
-	
+
 	pasteObj: function () {
-		let tmp = this.selected.add(this.objectClipboard);
-		console.log("pasted " + tmp);
+		
+		if(this.objectClipboard.operation == 'cut') {
+			let tmp = this.selected.add(this.objectClipboard);
+			console.log("pasted " + tmp);
+		} else {
+			this.objectClipboard = this.objectClipboard.clone();
+			this.selected.add(this.objectClipboard);
+			//this.execute(new AddObjectCommand(this, this.objectClipboard));
+		}
+		
 		this.objectClipboard = null;
-
-		//this.execute(new AddObjectCommand(this, this.objectCutted));		
-		this.signals.sceneGraphChanged.dispatch();
-
+		this.signals.sceneGraphChanged.dispatch();			
 	},
 
 	utils: {

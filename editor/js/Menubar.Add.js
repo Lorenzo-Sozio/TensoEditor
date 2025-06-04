@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import { UIPanel, UIRow } from './libs/ui.js';
 import { AddObjectCommand } from './commands/AddObjectCommand.js';
-import { ModelsManager } from './custom/ModelsManager_obsoleto.js';
 import { ModelManager } from './custom/ModelManager.js';
 
 function MenubarAdd(editor) {
@@ -43,7 +42,7 @@ function MenubarAdd(editor) {
 	option.onClick(function () {
 
 		let modelMan = new ModelManager(editor);
-		//modelMan.openEditor();
+		modelMan.initEditor();
 	});
 	options.add(option);
 

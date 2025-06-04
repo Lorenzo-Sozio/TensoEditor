@@ -19,10 +19,9 @@ export class EditorTabellaArticoli {
       ART_Codice: "",
       ART_Descrizione: "",
       tipo: "",
-      children: []
+      children: [],
+      ART_Alternative: []
     };
-
-
     this.init();
   }
 
@@ -64,7 +63,31 @@ export class EditorTabellaArticoli {
             </table>
         </div>
         
-       
+        <h2>Articoli Alternativi</h2>
+        
+        <div class="search-container">
+            <div class="form-group">
+                <label for="searchInputAlternative">Cerca Articolo Alternativo nel Catalogo</label>
+                <input type="text" id="searchInputAlternative" placeholder="Digita per cercare nel catalogo...">
+            </div>
+            <div id="searchResultsAlternative"></div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Art. Codice</th>
+                        <th>Art. Descrizione</th>
+                        <th>Tipo</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody id="alternativesTableBody">
+                    <!-- Gli articoli alternativi verranno inseriti qui dinamicamente -->
+                </tbody>
+            </table>
+        </div>
         
         <div class="form-group">
             <label for="jsonOutput">JSON Output</label>
@@ -160,6 +183,14 @@ export class EditorTabellaArticoli {
           margin-top: 5px;
         }
         
+        #searchResultsAlternative {
+          display: none;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          max-height: 200px;
+          overflow-y: auto;
+          margin-top: 5px;
+        }
 
         .search-result-item {
           padding: 8px 12px;
@@ -289,7 +320,8 @@ export class EditorTabellaArticoli {
   }
 
   #searchResultsChild,
-  #searchResultsArt {
+  #searchResultsArt,
+  #searchResultsAlternative {
     background-color: #222;
     border-color: #333;
   }
@@ -384,7 +416,6 @@ export class EditorTabellaArticoli {
       </style>
     `;
   }
-
 
   getFooterHTML() {
     return `
@@ -487,6 +518,7 @@ export class EditorTabellaArticoli {
       // Inizializza il JSON nell'interfaccia
       this.updateJsonView();
       this.renderComponentsTable();
+      this.renderAlternativesTable();
     } catch (error) {
       console.error('Errore nel caricamento del catalogo:', error);
     }
@@ -504,6 +536,11 @@ export class EditorTabellaArticoli {
       searchInputArt.addEventListener('input', () => this.searchCatalog(true));
     }
 
+    const searchInputAlternative = this.modalContainer.modalContent.querySelector('#searchInputAlternative');
+    if (searchInputAlternative) {
+      searchInputAlternative.addEventListener('input', () => this.searchCatalog('alternative'));
+    }
+
     // Pulsanti footer
     const cancelButton = this.modalContainer.modalFooter.querySelector('#cancelButton');
     if (cancelButton) {
@@ -517,7 +554,6 @@ export class EditorTabellaArticoli {
   }
 
   updateMainArticle(item) {
-
     this.mainArticle.ARTICOLO_ID = item.ARTICOLO_ID || 0;
     this.mainArticle.ART_Codice = item.ART_Codice;
     this.mainArticle.ART_Descrizione = item.ART_Descrizione;
@@ -527,16 +563,21 @@ export class EditorTabellaArticoli {
     this.updateJsonView();
   }
 
-  searchCatalog(p_article) {
-    let searchInput = this.modalContainer.modalContent.querySelector('#searchInputChild');
-    let searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
-    let resultsContainer = this.modalContainer.modalContent.querySelector('#searchResultsChild');
-
-    if (p_article == true) {
+  searchCatalog(searchType) {
+    let searchInput, searchTerm, resultsContainer;
+    
+    if (searchType === true) { // Main article search
       searchInput = this.modalContainer.modalContent.querySelector('#searchInputArt');
-      searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
       resultsContainer = this.modalContainer.modalContent.querySelector('#searchResultsArt');
+    } else if (searchType === false) { // Components search
+      searchInput = this.modalContainer.modalContent.querySelector('#searchInputChild');
+      resultsContainer = this.modalContainer.modalContent.querySelector('#searchResultsChild');
+    } else if (searchType === 'alternative') { // Alternatives search
+      searchInput = this.modalContainer.modalContent.querySelector('#searchInputAlternative');
+      resultsContainer = this.modalContainer.modalContent.querySelector('#searchResultsAlternative');
     }
+
+    searchTerm = searchInput ? searchInput.value.toLowerCase() : "";
 
     if (!resultsContainer) return;
 
@@ -601,10 +642,12 @@ export class EditorTabellaArticoli {
         typeCell.setAttribute('data-ref', 'tipo');  // Add reference
         row.appendChild(typeCell);
 
-        if (p_article == true) {
+        if (searchType === true) {
           row.addEventListener('click', () => this.updateMainArticle(item));
-        } else {
+        } else if (searchType === false) {
           row.addEventListener('click', () => this.addComponentFromCatalog(item));
+        } else if (searchType === 'alternative') {
+          row.addEventListener('click', () => this.addAlternativeFromCatalog(item));
         }
         tbody.appendChild(row);
       });
@@ -645,18 +688,28 @@ export class EditorTabellaArticoli {
     if (searchInputChild) searchInputChild.value = '';
   }
 
-  /*addEmptyComponent() {
-    const component = {
-      id: "",
-      nome: "",
-      tipo: "",
-      quantita: 1
+  addAlternativeFromCatalog(item) {
+    const alternative = {
+      ARTICOLO_ID: item.ARTICOLO_ID,
+      ART_Codice: item.ART_Codice,
+      ART_Descrizione: item.ART_Descrizione,
+      tipo: item.tipo
     };
 
-    this.mainArticle.children.push(component);
-    this.renderComponentsTable();
+    if (!this.mainArticle.ART_Alternative) this.mainArticle.ART_Alternative = [];
+
+    // Aggiungi il nuovo articolo alternativo
+    this.mainArticle.ART_Alternative.push(alternative);
+
+    // Aggiorna la tabella e nascondi i risultati di ricerca
+    this.renderAlternativesTable();
     this.updateJsonView();
-  }*/
+
+    const searchResultsAlternative = this.modalContainer.modalContent.querySelector('#searchResultsAlternative');
+    const searchInputAlternative = this.modalContainer.modalContent.querySelector('#searchInputAlternative');
+    if (searchResultsAlternative) searchResultsAlternative.style.display = 'none';
+    if (searchInputAlternative) searchInputAlternative.value = '';
+  }
 
   updateComponent(index, field, value) {
     if (field === 'id') {
@@ -682,6 +735,12 @@ export class EditorTabellaArticoli {
   removeComponent(index) {
     this.mainArticle.children.splice(index, 1);
     this.renderComponentsTable();
+    this.updateJsonView();
+  }
+
+  removeAlternative(index) {
+    this.mainArticle.ART_Alternative.splice(index, 1);
+    this.renderAlternativesTable();
     this.updateJsonView();
   }
 
@@ -732,6 +791,47 @@ export class EditorTabellaArticoli {
       row.appendChild(nameCell);
       row.appendChild(typeCell);
       row.appendChild(qtyCell);
+      row.appendChild(actionCell);
+
+      tableBody.appendChild(row);
+    });
+  }
+
+  renderAlternativesTable() {
+    const tableBody = this.modalContainer.modalContent.querySelector('#alternativesTableBody');
+    if (!tableBody) return;
+
+    tableBody.innerHTML = '';
+
+    if (!this.mainArticle.ART_Alternative) this.mainArticle.ART_Alternative = [];
+
+    this.mainArticle.ART_Alternative.forEach((alternative, index) => {
+      const row = document.createElement('tr');
+
+      // Cella Codice
+      const codeCell = document.createElement('td');
+      codeCell.textContent = alternative.ART_Codice || '';
+
+      // Cella Descrizione
+      const nameCell = document.createElement('td');
+      nameCell.textContent = alternative.ART_Descrizione || '';
+
+      // Cella Tipo
+      const typeCell = document.createElement('td');
+      typeCell.textContent = alternative.tipo || '';
+
+      // Cella Azioni
+      const actionCell = document.createElement('td');
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'action-button delete-button';
+      deleteButton.textContent = 'Elimina';
+      deleteButton.addEventListener('click', () => this.removeAlternative(index));
+      actionCell.appendChild(deleteButton);
+
+      // Aggiungi tutte le celle alla riga
+      row.appendChild(codeCell);
+      row.appendChild(nameCell);
+      row.appendChild(typeCell);
       row.appendChild(actionCell);
 
       tableBody.appendChild(row);

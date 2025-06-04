@@ -42,21 +42,6 @@ function SidebarProjectApp(editor) {
 
 	});
 
-	//Added by me
-	editableRow.add(new UIText(strings.getKey('sidebar/project/app/editable')).setClass('Label'));
-	editableRow.add(editable);
-
-	container.add(editableRow);
-
-	const controlsRow = new UIRow();
-	const enableControls = new UICheckbox(config.getKey('project/enableOrbitControls')).setLeft('100px').onChange(function () {
-		config.setKey('project/enableOrbitControls', this.getValue());
-	});
-
-	controlsRow.add(new UIText(strings.getKey('sidebar/project/app/enableOrbitControls')).setClass('Label'));
-	controlsRow.add(enableControls);
-	container.add(controlsRow);
-
 	// Play/Stop
 
 	let isPlaying = false;

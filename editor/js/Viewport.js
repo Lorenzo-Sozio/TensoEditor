@@ -515,16 +515,82 @@ function Viewport(editor) {
 			//console.log("collisionDetected: " + collisionDetected);
 			return collisionDetected;
 		  }
-		  
-		  // Funzione di utilità per verificare se un oggetto è discendente di un altro
-		  function isDescendant(parent, child) {
+
+/*			function checkCollisionAdvanced() {
+				if(!editor.collisionDetection) return false;
+			
+				let collisionDetected = false;
+			  
+				// Se l'oggetto è un gruppo, controlliamo le collisioni per ogni figlio mesh
+				if (object instanceof THREE.Group) {
+					// Prima raccogliamo tutte le mesh del gruppo
+					const groupMeshes = [];
+					object.traverse((child) => {
+						if (child instanceof THREE.Mesh) {
+							groupMeshes.push(child);
+						}
+					});
+			
+					// Poi controlliamo ogni mesh del gruppo contro la scena
+					for (const groupMesh of groupMeshes) {
+						const groupMeshBox = new THREE.Box3().setFromObject(groupMesh);
+						
+						scene.traverse((sceneChild) => {
+							// Escludiamo:
+							// 1. Se non è una mesh
+							// 2. Se è parte del gruppo stesso
+							// 3. Se è un discendente del gruppo (potrebbero esserci nested groups)
+							if (sceneChild instanceof THREE.Mesh && 
+								!groupMeshes.includes(sceneChild) &&
+								!isDescendant(object, sceneChild)) {
+								
+								const sceneChildBox = new THREE.Box3().setFromObject(sceneChild);
+								
+								// Debug helpers (facoltativi)
+								//const helper_childBox = new THREE.Box3Helper(sceneChildBox, 0xff0000);
+								//const helper_draggedBox = new THREE.Box3Helper(groupMeshBox, 0xff00ff);
+								//scene.add(helper_childBox);
+								//scene.add(helper_draggedBox);
+
+								if (groupMeshBox.intersectsBox(sceneChildBox)) {
+									console.log(`Collision detected between group element "${groupMesh.name}" and scene object "${sceneChild.name}"`);
+									collisionDetected = true;
+								}
+							}
+						});
+					}
+				} 
+				// Altrimenti procedi con il controllo normale per mesh singole
+				else if (object instanceof THREE.Mesh) {
+					const box = new THREE.Box3().setFromObject(object);
+				  
+					scene.traverse((child) => {
+						if (child instanceof THREE.Mesh &&
+							child !== object &&
+							!isDescendant(object, child)) {
+							
+							const childBox = new THREE.Box3().setFromObject(child);
+							
+							if (box.intersectsBox(childBox)) {
+								console.log("Collision detected with " + child.name);
+								collisionDetected = true;
+							}
+						}
+					});
+				}
+			  
+				return collisionDetected;
+			}*/
+
+		// Funzione di utilità per verificare se un oggetto è discendente di un altro
+		function isDescendant(parent, child) {
 			let current = child.parent;
 			while (current) {
-			  if (current === parent) return true;
-			  current = current.parent;
+				if (current === parent) return true;
+				current = current.parent;
 			}
 			return false;
-		  }
+		}
 	});
 
 	signals.objectRemoved.add(function (object) {

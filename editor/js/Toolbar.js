@@ -143,14 +143,15 @@ function Toolbar(editor) {
 	container.add(collisionDetection);
 
 	// Local Checkbox
-	const local = new UICheckbox(false);
+	/*const local = new UICheckbox(false);
 	local.dom.title = strings.getKey('toolbar/local');
 	local.onChange(function () {
 
 		signals.spaceChanged.dispatch(this.getValue() === true ? 'local' : 'world');
 
 	});
-	container.add(local);
+	container.add(local);*/
+
 	/*// Center View
 	const centerViewIcon = document.createElement('img');
 	centerViewIcon.title = strings.getKey('toolbar/centerview');
